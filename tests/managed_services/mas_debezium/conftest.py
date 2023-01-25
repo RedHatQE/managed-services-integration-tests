@@ -3,14 +3,20 @@ import logging
 import pytest
 import rhoas_kafka_instance_sdk
 from constants import (
+    CONSUMER_POD,
+    DEBEZIUM_NS,
     KAFKA_CLOUD_PROVIDER,
     KAFKA_NAME,
+    KAFKA_PLAN,
     KAFKA_REGION,
     KAFKA_SA_NAME,
     KAFKA_TIMEOUT,
     KAFKA_TOPICS,
 )
+from ocp_resources.namespace import Namespace
+from ocp_resources.pod import Pod
 from ocp_resources.utils import TimeoutSampler
+from ocp_utilities.infra import cluster_resource
 from rhoas_kafka_instance_sdk.api import acls_api, topics_api
 from rhoas_kafka_instance_sdk.model.acl_binding import AclBinding
 from rhoas_kafka_instance_sdk.model.acl_operation import AclOperation
@@ -25,8 +31,11 @@ from rhoas_service_accounts_mgmt_sdk.model.service_account_create_request_data i
     ServiceAccountCreateRequestData,
 )
 
+from utilities.template_utils import get_resource_j2_template, render_yaml_from_dict
+
 
 LOGGER = logging.getLogger(__name__)
+WAIT_STATUS_TIMEOUT = 120
 
 
 @pytest.fixture(scope="session")
@@ -36,6 +45,7 @@ def kafka_instance(kafka_mgmt_api_instance):
         cloud_provider=KAFKA_CLOUD_PROVIDER,
         name=KAFKA_NAME,
         region=KAFKA_REGION,
+        plan=KAFKA_PLAN,
         reauthentication_enabled=True,
     )
     kafka_create_api = kafka_mgmt_api_instance.create_kafka(
@@ -57,10 +67,13 @@ def kafka_instance(kafka_mgmt_api_instance):
         if sample:
             break
     kafka_ready_api = kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_create_api.id)
+    LOGGER.info(kafka_ready_api)
     yield kafka_ready_api
 
     # TODO: raises a TypeError; work with Dimitri to understand why
-    kafka_mgmt_api_instance.delete_kafka_by_id(_async=_async, id=kafka_ready_api.id)
+    kafka_mgmt_api_instance.delete_kafka_by_id(
+        async_req=True, _async=_async, id=kafka_ready_api.id
+    )
 
 
 @pytest.fixture(scope="session")
@@ -146,3 +159,33 @@ def kafka_topics(kafka_instance_client):
             kafka_topics_api_instance.create_topic(new_topic_input=new_topic_input)
 
     return kafka_topics
+
+
+@pytest.fixture(scope="session")
+def debezium_namespace(admin_client):
+    with cluster_resource(Namespace)(client=admin_client, name=DEBEZIUM_NS) as dbz_ns:
+        dbz_ns.wait_for_status(
+            status=Namespace.Status.ACTIVE, timeout=WAIT_STATUS_TIMEOUT
+        )
+        yield dbz_ns
+
+
+@pytest.fixture(scope="session")
+def consumer_pod(admin_client, kafka_instance, kafka_instance_sa, debezium_namespace):
+    pod_manifest_template = get_resource_j2_template(template_name="consumer_pod.j2")
+    pod_manifest_yaml = render_yaml_from_dict(
+        template=pod_manifest_template,
+        _dict={
+            "debezium_namespace": debezium_namespace.name,
+            "consumer_pod_name": CONSUMER_POD,
+            "kafka_bootstrap_url": "",
+            "kafka_sa_client_id": "",
+            "kafka_sa_client_secret": "",
+        },
+    )
+
+    with cluster_resource(Pod)(
+        client=admin_client, yaml_file=pod_manifest_yaml
+    ) as consumer:
+        consumer.wait_for_status(status=Pod.Status.RUNNING, timeout=WAIT_STATUS_TIMEOUT)
+        yield consumer
