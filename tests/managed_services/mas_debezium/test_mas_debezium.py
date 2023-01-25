@@ -8,7 +8,10 @@ pytestmark = pytest.mark.mas_debezium
 
 
 def test_kafka_topics(
-    kafka_instance, kafka_instance_client, kafka_instance_sa, kafka_topics
+    kafka_instance_client,
+    kafka_topics,
+    # kafka_instance_sa,
+    # consumer_pod
 ):
     """
     Test for managed kafka resources setup,
