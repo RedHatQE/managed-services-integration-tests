@@ -23,6 +23,7 @@ pip = "*"
 PyYaml = "*"
 rhoas-sdks = "*"
 auth = "*"
+jinja2 = "*"
 
 [tool.poetry.dev-dependencies]
 ipdb = "*"

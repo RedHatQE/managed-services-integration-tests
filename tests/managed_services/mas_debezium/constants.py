@@ -2,7 +2,7 @@
 KAFKA_NAME = "ms-kafka"
 KAFKA_CLOUD_PROVIDER = "aws"
 KAFKA_REGION = "us-east-1"
-KAFKA_PLAN = "developer.x1"
+KAFKA_PLAN = "standard.x1"
 KAFKA_TIMEOUT = 360
 KAFKA_SA_NAME = "ms-kafka-sa"
 PARTITION = 0
@@ -34,6 +34,7 @@ KAFKA_TOPICS = [
     },
 ]
 
-# debezium variables
+# scenario components variables
 DEBEZIUM_NS = "mas-debezium"
 CONSUMER_POD = "kafka-consumer-pod"
+CONSUMER_IMAGE = "edenhill/kcat:1.7.1"
