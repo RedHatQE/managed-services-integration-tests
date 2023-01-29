@@ -11,7 +11,7 @@ def render_yaml_from_dict(template, _dict):
     return io.StringIO(template.render(_dict))
 
 
-def get_resource_j2_template(template_name, base_templates="../templates/"):
+def get_resource_j2_template(template_name, base_templates="templates/"):
     env = Environment(
         loader=FileSystemLoader(base_templates),
         trim_blocks=True,

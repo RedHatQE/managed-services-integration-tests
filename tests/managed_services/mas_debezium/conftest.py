@@ -3,6 +3,7 @@ import logging
 import pytest
 import rhoas_kafka_instance_sdk
 from constants import (
+    CONSUMER_IMAGE,
     CONSUMER_POD,
     DEBEZIUM_NS,
     KAFKA_CLOUD_PROVIDER,
@@ -67,10 +68,9 @@ def kafka_instance(kafka_mgmt_api_instance):
         if sample:
             break
     kafka_ready_api = kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_create_api.id)
-    LOGGER.info(kafka_ready_api)
+    LOGGER.info(f"Kafka instance is ready:\n{kafka_ready_api}")
     yield kafka_ready_api
 
-    # TODO: raises a TypeError; work with Dimitri to understand why
     kafka_mgmt_api_instance.delete_kafka_by_id(
         async_req=True, _async=_async, id=kafka_ready_api.id
     )
@@ -93,49 +93,57 @@ def kafka_instance_sa(kafka_instance_client, service_accounts_api_instance):
         name=KAFKA_SA_NAME,
         description=f"{KAFKA_NAME} instance service-account",
     )
-
-    kafka_sa_create_api = service_accounts_api_instance.create_service_account(
+    kafka_sa = service_accounts_api_instance.create_service_account(
         service_account_create_request_data=service_account_create_request_data
     )
     assert (
-        kafka_sa_create_api.id
-    ), f"Failed to create service-account for kafka. API response:\n{kafka_sa_create_api}"
+        kafka_sa.id
+    ), f"Failed to create service-account for kafka. API response:\n{kafka_sa}"
+    LOGGER.info(f"kafka service-account:\n{kafka_sa}")
 
-    # Binding the service-account instance to kafka with all producer/consumer privileges
+    # Binding the service-account instance to kafka with privileges
     # via AclBinding instance
-    # TODO: move full acl creating procedure to a utilities module
     acl_api_instance = acls_api.AclsApi(api_client=kafka_instance_client)
-    resource_type = (AclResourceType("TOPIC"),)
-    resource_name = ("*",)
-    pattern_type = (AclPatternType("LITERAL"),)
-    permission = (AclPermissionType("ALLOW"),)
-    principal = (f"User:{kafka_sa_create_api.id}",)
-    operation = (AclOperation("ALL"),)
-    acl_binding = AclBinding(
-        resource_type=resource_type,
-        resource_name=resource_name,
-        pattern_type=pattern_type,
-        permission=permission,
-        principal=principal,
-        operation=operation,
-    )
-    acl_api_instance.create_acl(acl_binding=acl_binding)
 
-    kafka_sa_acl = acl_api_instance.get_acls(
-        resource_type=resource_type,
-        resource_name=resource_name,
-        pattern_type=pattern_type,
-        permission=permission,
-        principal=principal,
-        operation=operation,
-    )
-    assert kafka_sa_acl.items[0].principal == principal
+    # acl binding attributes
+    resources = ["GROUP", "TOPIC", "TRANSACTIONAL_ID"]
+    resource_name = "*"
+    pattern_type = AclPatternType("LITERAL")
+    permission = AclPermissionType("ALLOW")
+    principal = f"User:{kafka_sa.id}"
+    operation = AclOperation("ALL")
 
-    yield kafka_sa_create_api
+    for resource in resources:
+        resource_type = AclResourceType(resource)
+        acl_binding = AclBinding(
+            resource_type=resource_type,
+            resource_name=resource_name,
+            pattern_type=pattern_type,
+            permission=permission,
+            principal=principal,
+            operation=operation,
+        )
+        acl_api_instance.create_acl(acl_binding=acl_binding)
 
-    service_accounts_api_instance.delete_service_account(
-        id=kafka_sa_create_api.id
+        # validating current acl created
+        kafka_sa_acl = acl_api_instance.get_acls(
+            resource_type=resource_type,
+            resource_name=resource_name,
+            pattern_type=pattern_type,
+            permission=permission,
+            principal=principal,
+            operation=operation,
+            async_req=True,
+        )
+        # TODO: get data from ApplyResult object to assert current acl created
+        assert kafka_sa_acl
+
+    yield kafka_sa
+
+    delete_sa_callback = service_accounts_api_instance.delete_service_account(
+        id=kafka_sa.id, async_req=True
     )  # TODO: not deleting properly.
+    LOGGER.info(delete_sa_callback.get())
 
 
 @pytest.fixture(scope="session")
@@ -157,7 +165,6 @@ def kafka_topics(kafka_instance_client):
                 ),
             )
             kafka_topics_api_instance.create_topic(new_topic_input=new_topic_input)
-
     return kafka_topics
 
 
@@ -172,15 +179,18 @@ def debezium_namespace(admin_client):
 
 @pytest.fixture(scope="session")
 def consumer_pod(admin_client, kafka_instance, kafka_instance_sa, debezium_namespace):
-    pod_manifest_template = get_resource_j2_template(template_name="consumer_pod.j2")
+    pod_manifest_template = get_resource_j2_template(
+        template_name="managed_services/mas_debezium/consumer_pod.j2"
+    )
     pod_manifest_yaml = render_yaml_from_dict(
         template=pod_manifest_template,
         _dict={
             "debezium_namespace": debezium_namespace.name,
             "consumer_pod_name": CONSUMER_POD,
-            "kafka_bootstrap_url": "",
-            "kafka_sa_client_id": "",
-            "kafka_sa_client_secret": "",
+            "consumer_image": CONSUMER_IMAGE,
+            "kafka_bootstrap_url": kafka_instance.bootstrap_server_host,
+            "kafka_sa_client_id": kafka_instance_sa.id,
+            "kafka_sa_client_secret": kafka_instance_sa.secret,
         },
     )
 
