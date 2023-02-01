@@ -17,4 +17,4 @@ class TestDebezium:
         kafka_event = consumer_pod.log()
         assert kafka_event.startswith(
             TEST_RECORD
-        ), "Failed to consume the correct record"
+        ), f"Failed to consume the correct record. Existing Kafka event:\n{kafka_event}"
