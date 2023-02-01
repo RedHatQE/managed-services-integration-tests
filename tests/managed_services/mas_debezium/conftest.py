@@ -42,7 +42,7 @@ LOGGER = logging.getLogger(__name__)
 WAIT_STATUS_TIMEOUT = 120
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def kafka_instance_create(kafka_mgmt_api_instance):
     _async = True
     kafka_request_payload = KafkaRequestPayload(
@@ -66,7 +66,7 @@ def kafka_instance_create(kafka_mgmt_api_instance):
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def kafka_instance_ready(kafka_mgmt_api_instance, kafka_instance_create):
     kafka_status_samples = TimeoutSampler(
         wait_timeout=KAFKA_TIMEOUT,
@@ -86,7 +86,7 @@ def kafka_instance_ready(kafka_mgmt_api_instance, kafka_instance_create):
     yield kafka_ready_api
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def kafka_instance_client(kafka_instance_ready, access_token):
     # https://github.com/redhat-developer/app-services-sdk-python/tree/main/sdks/kafka_instance_sdk
     configuration = rhoas_kafka_instance_sdk.Configuration(
@@ -97,7 +97,7 @@ def kafka_instance_client(kafka_instance_ready, access_token):
         yield api_client
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def kafka_instance_sa(kafka_instance_client, service_accounts_api_instance):
     service_account_create_request_data = ServiceAccountCreateRequestData(
         name=KAFKA_SA_NAME,
@@ -116,7 +116,7 @@ def kafka_instance_sa(kafka_instance_client, service_accounts_api_instance):
     service_accounts_api_instance.delete_service_account(id=kafka_sa.id, async_req=True)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def kafka_sa_acl(kafka_instance_client, kafka_instance_sa):
     # Binding the service-account instance to kafka with privileges
     # via AclBinding instance
@@ -155,7 +155,7 @@ def kafka_sa_acl(kafka_instance_client, kafka_instance_sa):
         assert sa_acl, f"Failed to bind a kafka acl for {resource} resource type"
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def kafka_topics(kafka_instance_client):
     kafka_topics_api_instance = topics_api.TopicsApi(api_client=kafka_instance_client)
     for topics_group in KAFKA_TOPICS:
@@ -180,7 +180,7 @@ def kafka_topics(kafka_instance_client):
     records_api_client.produce_record(topic_name=TEST_TOPIC, record=record)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def debezium_namespace(admin_client):
     with cluster_resource(Namespace)(client=admin_client, name=DEBEZIUM_NS) as dbz_ns:
         dbz_ns.wait_for_status(
@@ -189,7 +189,7 @@ def debezium_namespace(admin_client):
         yield dbz_ns
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def consumer_pod_yaml(kafka_instance_ready, kafka_instance_sa, debezium_namespace):
     pod_manifest_yaml = render_template_from_dict(
         template_name="managed_services/mas_debezium/consumer_pod.j2",
@@ -206,7 +206,7 @@ def consumer_pod_yaml(kafka_instance_ready, kafka_instance_sa, debezium_namespac
     return pod_manifest_yaml
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def consumer_pod(admin_client, consumer_pod_yaml):
     with cluster_resource(Pod)(
         client=admin_client, yaml_file=consumer_pod_yaml
