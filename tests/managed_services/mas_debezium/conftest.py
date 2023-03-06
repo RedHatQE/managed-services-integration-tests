@@ -3,6 +3,7 @@ import logging
 import pytest
 import rhoas_kafka_instance_sdk
 from constants import KAFKA_NAME, TEST_RECORD, TEST_TOPIC
+from consumer_pod import ConsumerPod
 from ocp_resources.namespace import Namespace
 from ocp_resources.pod import Pod
 from ocp_resources.utils import TimeoutExpiredError, TimeoutSampler
@@ -21,8 +22,6 @@ from rhoas_kafka_mgmt_sdk.model.kafka_request_payload import KafkaRequestPayload
 from rhoas_service_accounts_mgmt_sdk.model.service_account_create_request_data import (
     ServiceAccountCreateRequestData,
 )
-
-from utilities.template_utils import render_template_from_dict
 
 
 LOGGER = logging.getLogger(__name__)
@@ -56,20 +55,17 @@ def kafka_instance(kafka_mgmt_api_instance):
 @pytest.fixture(scope="class")
 def kafka_instance_ready(kafka_mgmt_api_instance, kafka_instance):
     try:
-        kafka_status_samples = TimeoutSampler(
+        kafka_samples = TimeoutSampler(
             wait_timeout=360,
             sleep=10,
-            func=lambda: kafka_mgmt_api_instance.get_kafka_by_id(
-                id=kafka_instance.id
-            ).status
-            == "ready",
+            func=lambda: kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_instance.id),
         )
-        for sample in kafka_status_samples:
-            if sample:
+        for kafka_sample in kafka_samples:
+            if kafka_sample.status == "ready":
+                LOGGER.info(f"Kafka instance is ready:\n{kafka_sample}")
+                yield kafka_sample
                 break
-        kafka_ready_api = kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_instance.id)
-        LOGGER.info(f"Kafka instance is ready:\n{kafka_ready_api}")
-        yield kafka_ready_api
+
     except TimeoutExpiredError:
         LOGGER.error(
             "Timeout expired. Kafka creation status: "
@@ -192,25 +188,18 @@ def debezium_namespace(admin_client):
 
 
 @pytest.fixture(scope="class")
-def consumer_pod_yaml(kafka_instance_ready, kafka_instance_sa, debezium_namespace):
-    return render_template_from_dict(
-        template_name="managed_services/mas_debezium/consumer_pod.j2",
-        template_dict={
-            "debezium_namespace": debezium_namespace.name,
-            "consumer_pod_name": "kafka-consumer-pod",
-            "consumer_image": "edenhill/kcat:1.7.1",
-            "kafka_bootstrap_url": kafka_instance_ready.bootstrap_server_host,
-            "kafka_sa_client_id": kafka_instance_sa.id,
-            "kafka_sa_client_secret": kafka_instance_sa.secret,
-            "test_kafka_topic": TEST_TOPIC,
-        },
-    )
-
-
-@pytest.fixture(scope="class")
-def consumer_pod(admin_client, consumer_pod_yaml):
-    with cluster_resource(Pod)(
-        client=admin_client, yaml_file=consumer_pod_yaml
+def consumer_pod(
+    admin_client, kafka_instance_ready, kafka_instance_sa, debezium_namespace
+):
+    with cluster_resource(ConsumerPod)(
+        client=admin_client,
+        name="kafka-consumer-pod",
+        namespace=debezium_namespace.name,
+        consumer_image="edenhill/kcat:1.7.1",
+        kafka_bootstrap_url=kafka_instance_ready.bootstrap_server_host,
+        kafka_sa_client_id=kafka_instance_sa.id,
+        kafka_sa_client_secret=kafka_instance_sa.secret,
+        kafka_test_topic=TEST_TOPIC,
     ) as consumer:
         consumer.wait_for_status(status=Pod.Status.RUNNING, timeout=WAIT_STATUS_TIMEOUT)
         yield consumer
