@@ -2,7 +2,7 @@ import logging
 
 import pytest
 import rhoas_kafka_instance_sdk
-from constants import KAFKA_NAME, TEST_RECORD, TEST_TOPIC
+from constants import KAFKA_NAME, KAFKA_SA_NAME, TEST_RECORD, TEST_TOPIC
 from consumer_pod import ConsumerPod
 from ocp_resources.namespace import Namespace
 from ocp_resources.pod import Pod
@@ -30,6 +30,7 @@ WAIT_STATUS_TIMEOUT = 120
 
 @pytest.fixture(scope="class")
 def kafka_instance(kafka_mgmt_api_instance):
+    LOGGER.info(f"Creating {KAFKA_NAME} kafka instance")
     _async = True
     kafka_request_payload = KafkaRequestPayload(
         cloud_provider="aws",
@@ -47,6 +48,7 @@ def kafka_instance(kafka_mgmt_api_instance):
 
     yield kafka_create_api
 
+    LOGGER.info(f"Deleting {KAFKA_NAME} kafka instance")
     kafka_mgmt_api_instance.delete_kafka_by_id(
         async_req=True, _async=_async, id=kafka_create_api.id
     )
@@ -54,22 +56,22 @@ def kafka_instance(kafka_mgmt_api_instance):
 
 @pytest.fixture(scope="class")
 def kafka_instance_ready(kafka_mgmt_api_instance, kafka_instance):
+    LOGGER.info(f"Waiting for {KAFKA_NAME} kafka instance to be ready")
+    kafka_samples = TimeoutSampler(
+        wait_timeout=360,
+        sleep=10,
+        func=lambda: kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_instance.id),
+    )
     try:
-        kafka_samples = TimeoutSampler(
-            wait_timeout=360,
-            sleep=10,
-            func=lambda: kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_instance.id),
-        )
         for kafka_sample in kafka_samples:
             if kafka_sample.status == "ready":
-                LOGGER.info(f"Kafka instance is ready:\n{kafka_sample}")
                 yield kafka_sample
                 break
 
     except TimeoutExpiredError:
         LOGGER.error(
-            "Timeout expired. Kafka creation status: "
-            f"{kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_instance.id).status}"
+            "Timeout expired. Current kafka snapshot:\n"
+            f"{kafka_mgmt_api_instance.get_kafka_by_id(id=kafka_instance.id)}"
         )
         raise
 
@@ -89,8 +91,11 @@ def kafka_instance_client(kafka_instance_ready, access_token):
 
 @pytest.fixture(scope="class")
 def kafka_instance_sa(kafka_instance_client, service_accounts_api_instance):
+    LOGGER.info(
+        f"Creating {KAFKA_SA_NAME} service-account for {KAFKA_NAME} kafka instance"
+    )
     service_account_create_request_data = ServiceAccountCreateRequestData(
-        name="ms-kafka-sa",
+        name=KAFKA_SA_NAME,
         description=f"{KAFKA_NAME} instance service-account",
     )
     kafka_sa = service_accounts_api_instance.create_service_account(
@@ -102,11 +107,15 @@ def kafka_instance_sa(kafka_instance_client, service_accounts_api_instance):
 
     yield kafka_sa
 
+    LOGGER.info(f"Deleting {KAFKA_SA_NAME} service-account")
     service_accounts_api_instance.delete_service_account(id=kafka_sa.id, async_req=True)
 
 
 @pytest.fixture(scope="class")
 def kafka_sa_acl(kafka_instance_client, kafka_instance_sa):
+    LOGGER.info(
+        f"Binding acls for {KAFKA_SA_NAME} service-account with {KAFKA_NAME} kafka instance"
+    )
     # Binding the service-account instance to kafka with privileges
     # via AclBinding instance
     acl_api_instance = acls_api.AclsApi(api_client=kafka_instance_client)
@@ -124,6 +133,7 @@ def kafka_sa_acl(kafka_instance_client, kafka_instance_sa):
 
 @pytest.fixture(scope="class")
 def kafka_topics(kafka_instance_client):
+    LOGGER.info(f"Creating kafka topics for {KAFKA_NAME} kafka instance")
     kafka_topics = [
         {
             "name": "debezium_topics",
@@ -169,7 +179,10 @@ def kafka_topics(kafka_instance_client):
             )
             kafka_topics_api_instance.create_topic(new_topic_input=new_topic_input)
 
-    # Produce to tested topic
+
+@pytest.fixture(scope="class")
+def kafka_record(kafka_instance_client, kafka_topics):
+    LOGGER.info(f"Producing test record to {TEST_TOPIC} kafka topic")
     records_api_client = records_api.RecordsApi(api_client=kafka_instance_client)
     records_api_client.produce_record(
         topic_name=TEST_TOPIC, record=Record(value=TEST_RECORD)
