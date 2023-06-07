@@ -41,6 +41,8 @@ def kafka_supported_region(kafka_mgmt_api_instance, rosa_regions):
     LOGGER.info(
         f"Searching for an available kafka cloud region under {cloud_provider} cloud provider"
     )
+    import ipdb
+    ipdb.set_trace()
     for region_dict in rosa_regions:
         region_id = region_dict["id"]
         with contextlib.suppress(ApiException):
