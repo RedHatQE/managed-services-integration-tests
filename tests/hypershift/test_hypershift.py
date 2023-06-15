@@ -269,6 +269,7 @@ class TestHypershiftCluster:
         cluster_subnets,
         oidc_config_id,
         rosa_allowed_commands,
+        ocm_token,
     ):
         LOGGER.info(
             f"Test hypershift cluster install using {hypershift_target_version} OCP version"
@@ -281,6 +282,7 @@ class TestHypershiftCluster:
             aws_compute_machine_type=py_config["aws_compute_machine_type"],
             oidc_config_id=oidc_config_id,
             rosa_allowed_commands=rosa_allowed_commands,
+            ocm_token=ocm_token,
         )
 
     @pytest.mark.dependency(
