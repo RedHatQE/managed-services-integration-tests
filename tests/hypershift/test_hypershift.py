@@ -71,7 +71,9 @@ def create_hypershift_cluster(
         f"--version {ocp_target_version} --oidc-config-id {oidc_config_id}"
     )
     rosa.cli.execute(
-        command=rosa_create_cluster_cmd, allowed_commands=rosa_allowed_commands,        token=ocm_token,
+        command=rosa_create_cluster_cmd,
+        allowed_commands=rosa_allowed_commands,
+        token=ocm_token,
     )
 
 
@@ -199,12 +201,18 @@ def cluster_scope_class(ocm_client_scope_session, cluster_parameters):
 
 
 @pytest.fixture(scope="class")
-def oidc_config_id(cluster_parameters, aws_region, rosa_allowed_commands,ocm_token,):
+def oidc_config_id(
+    cluster_parameters,
+    aws_region,
+    rosa_allowed_commands,
+    ocm_token,
+):
     oidc_prefix = cluster_parameters["cluster_name"]
     LOGGER.info("Create oidc-config")
     rosa.cli.execute(
         command=f"create oidc-config --managed=false --prefix {oidc_prefix} --region {aws_region}",
-        allowed_commands=rosa_allowed_commands,        token=ocm_token,
+        allowed_commands=rosa_allowed_commands,
+        token=ocm_token,
     )
     res = rosa.cli.execute(
         command=f"list oidc-config --region {aws_region}",
@@ -226,7 +234,7 @@ def oidc_config_id(cluster_parameters, aws_region, rosa_allowed_commands,ocm_tok
 
 
 @pytest.fixture(scope="session")
-def hypershift_target_version(ocp_target_version, rosa_allowed_commands,ocm_token):
+def hypershift_target_version(ocp_target_version, rosa_allowed_commands, ocm_token):
     """Return ocp_target_version if semantic version else return ROSA latest version based on ocp_target_version"""
     # Z-stream or explicit RC
     if len(version.parse(ocp_target_version).release) == 3:
