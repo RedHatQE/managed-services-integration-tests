@@ -61,6 +61,7 @@ def create_hypershift_cluster(
     aws_compute_machine_type,
     oidc_config_id,
     rosa_allowed_commands,
+    ocm_token,
 ):
     rosa_create_cluster_cmd = (
         f"create cluster --cluster-name {cluster_parameters['cluster_name']} "
@@ -70,23 +71,13 @@ def create_hypershift_cluster(
         f"--version {ocp_target_version} --oidc-config-id {oidc_config_id}"
     )
     rosa.cli.execute(
-        command=rosa_create_cluster_cmd, allowed_commands=rosa_allowed_commands
+        command=rosa_create_cluster_cmd, allowed_commands=rosa_allowed_commands,        token=ocm_token,
     )
 
 
 @pytest.fixture(scope="session")
 def exported_aws_credentials():
     verify_aws_credentials()
-
-
-@pytest.fixture(scope="session")
-def rosa_login(rosa_allowed_commands):
-    home_dir = py_config.get("home_dir")
-    if home_dir:
-        os.environ["HOME"] = home_dir
-    api_server = py_config["api_server"]
-    env_str = "--env=staging" if api_server == "stage" else ""
-    rosa.cli.execute(command=f"login {env_str}", allowed_commands=rosa_allowed_commands)
 
 
 @pytest.fixture(scope="session")
@@ -208,16 +199,17 @@ def cluster_scope_class(ocm_client_scope_session, cluster_parameters):
 
 
 @pytest.fixture(scope="class")
-def oidc_config_id(cluster_parameters, aws_region, rosa_allowed_commands):
+def oidc_config_id(cluster_parameters, aws_region, rosa_allowed_commands,ocm_token,):
     oidc_prefix = cluster_parameters["cluster_name"]
     LOGGER.info("Create oidc-config")
     rosa.cli.execute(
         command=f"create oidc-config --managed=false --prefix {oidc_prefix} --region {aws_region}",
-        allowed_commands=rosa_allowed_commands,
+        allowed_commands=rosa_allowed_commands,        token=ocm_token,
     )
     res = rosa.cli.execute(
         command=f"list oidc-config --region {aws_region}",
         allowed_commands=rosa_allowed_commands,
+        token=ocm_token,
     )["out"]
     _oidc_config_id = [
         oidc_config["id"]
@@ -229,19 +221,20 @@ def oidc_config_id(cluster_parameters, aws_region, rosa_allowed_commands):
     rosa.cli.execute(
         command=f"delete oidc-config --oidc-config-id {_oidc_config_id} --region {aws_region}",
         allowed_commands=rosa_allowed_commands,
+        token=ocm_token,
     )
 
 
 @pytest.fixture(scope="session")
-def hypershift_target_version(ocp_target_version, rosa_allowed_commands):
+def hypershift_target_version(ocp_target_version, rosa_allowed_commands,ocm_token):
     """Return ocp_target_version if semantic version else return ROSA latest version based on ocp_target_version"""
     # Z-stream or explicit RC
     if len(version.parse(ocp_target_version).release) == 3:
         return ocp_target_version
-
     rosa_versions = rosa.cli.execute(
         command=f"list versions --channel-group {py_config['openshift_channel_group']}",
         allowed_commands=rosa_allowed_commands,
+        token=ocm_token,
     )["out"]
     # Excluding "ec" releases
     target_version = max(

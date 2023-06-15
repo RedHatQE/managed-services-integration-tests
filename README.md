@@ -115,6 +115,14 @@ Example:
 --log-cli-level=DEBUG
 ````
 
+## Running with OCM client (mandatory)
+
+Export `OCM_TOKEN` env variable locally or in test container
+
+```bash
+export OCM_TOKEN="production or stage OCM token"
+```
+
 ## Running tests
 
 ### Cluster upgrade tests
@@ -170,14 +178,6 @@ To check for PEP 8 issues locally run:
 
 ```bash
 tox
-```
-
-## Running with OCM client
-
-Export `OCM_TOKEN` env variable locally or in test container
-
-```bash
-export OCM_TOKEN="production or stage OCM token"
 ```
 
 ## Overwrite global_config execution configuration
