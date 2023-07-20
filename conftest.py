@@ -33,6 +33,7 @@ def pytest_addoption(parser):
     data_collector_group = parser.getgroup(name="DataCollector")
     ocm_group = parser.getgroup(name="OCM")
     upgrade_group = parser.getgroup(name="Upgrade")
+    cluster_group = parser.getgroup(name="Cluster")
 
     # Data collector group
     data_collector_group.addoption(
@@ -50,6 +51,23 @@ def pytest_addoption(parser):
 
     # Upgrade group
     upgrade_group.addoption("--ocp-target-version", help="cluster OCP target version")
+
+    # Cluster group
+    cluster_group.addoption(
+        "--kubeconfig-file-path",
+        action="append",
+        default=[],
+        help="""
+        list of kubeconfig file paths to pass to test functions, pass multiple '--kubeconfig-file-path=<path to file>'
+        """,
+    )
+
+
+def pytest_generate_tests(metafunc):
+    if "kubeconfig_file_path" in metafunc.fixturenames:
+        metafunc.parametrize(
+            "kubeconfig_file_path", metafunc.config.getoption("--kubeconfig-file-path")
+        )
 
 
 def pytest_sessionstart(session):

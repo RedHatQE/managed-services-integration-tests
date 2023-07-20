@@ -26,7 +26,7 @@ def admin_client():
 
 
 @pytest.fixture(scope="session")
-def nodes(admin_client):
+def nodes_scope_session(admin_client):
     yield list(Node.get(dyn_client=admin_client))
 
 
