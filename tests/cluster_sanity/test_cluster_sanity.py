@@ -7,8 +7,13 @@ from utilities.infra import cluster_sanity
 
 
 @pytest.fixture()
-def admin_client_from_file(kubeconfig_file_path):
-    return get_client(config_file=kubeconfig_file_path)
+def admin_client_scope_function(kubeconfig_file_paths):
+    """
+    Get DynamicClient
+    """
+    return get_client(
+        config_file=kubeconfig_file_paths if kubeconfig_file_paths else None
+    )
 
 
 @pytest.fixture(scope="session")
@@ -17,13 +22,13 @@ def pods_scope_session(admin_client):
 
 
 @pytest.fixture()
-def pods_scope_function(admin_client_from_file):
-    return list(Pod.get(dyn_client=admin_client_from_file))
+def pods_scope_function(admin_client_scope_function):
+    return list(Pod.get(dyn_client=admin_client_scope_function))
 
 
 @pytest.fixture()
-def nodes_scope_function(admin_client_from_file):
-    yield list(Node.get(dyn_client=admin_client_from_file))
+def nodes_scope_function(admin_client_scope_function):
+    yield list(Node.get(dyn_client=admin_client_scope_function))
 
 
 @pytest.mark.smoke

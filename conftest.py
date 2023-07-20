@@ -54,19 +54,19 @@ def pytest_addoption(parser):
 
     # Cluster group
     cluster_group.addoption(
-        "--kubeconfig-file-path",
-        action="append",
-        default=[],
+        "--kubeconfig-file-paths",
+        default="",
         help="""
-        list of kubeconfig file paths to pass to test functions, pass multiple '--kubeconfig-file-path=<path to file>'
+        str of comma-separated kubeconfig file paths, pass '--kubeconfig-file-path=<path to file>,<path to file>'
         """,
     )
 
 
 def pytest_generate_tests(metafunc):
-    if "kubeconfig_file_path" in metafunc.fixturenames:
+    if "kubeconfig_file_paths" in metafunc.fixturenames:
         metafunc.parametrize(
-            "kubeconfig_file_path", metafunc.config.getoption("--kubeconfig-file-path")
+            "kubeconfig_file_paths",
+            metafunc.config.getoption("--kubeconfig-file-paths", "").split(","),
         )
 
 
