@@ -66,7 +66,7 @@ def pytest_generate_tests(metafunc):
     if "kubeconfig_file_paths" in metafunc.fixturenames:
         metafunc.parametrize(
             "kubeconfig_file_paths",
-            metafunc.config.getoption("--kubeconfig-file-paths", "").split(","),
+            metafunc.config.getoption("--kubeconfig-file-paths").split(","),
         )
 
 

@@ -17,8 +17,8 @@ def admin_client_scope_function(kubeconfig_file_paths):
 
 
 @pytest.fixture(scope="session")
-def pods_scope_session(admin_client):
-    return list(Pod.get(dyn_client=admin_client))
+def pods_scope_session(admin_client_scope_session):
+    return list(Pod.get(dyn_client=admin_client_scope_session))
 
 
 @pytest.fixture()
