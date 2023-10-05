@@ -78,3 +78,11 @@ def rosa_regions(ocm_client_scope_session, rosa_allowed_commands):
 def rosa_allowed_commands():
     # Get ROSA allowed commands to save execution time
     return rosa.cli.parse_help()
+
+
+@pytest.fixture(scope="session")
+def kubeadmin_token():
+    kubeadmin_token_env_var_name = "KUBEADMIN_TOKEN"
+    token = os.getenv(kubeadmin_token_env_var_name)
+    assert token, f"{kubeadmin_token_env_var_name} environment variable is not set."
+    return token
