@@ -1,13 +1,27 @@
-import json
-
 import pytest
 import requests
-from ocp_resources.multi_cluster_observability import MultiClusterObservability
+from ocp_resources.observability_addon import ObservabilityAddon
 from ocp_resources.route import Route
 
 
 @pytest.fixture(scope="session")
-def rbac_proxy_route_url(admin_client_scope_session):
+def observability_addon(admin_client_scope_session):
+    observability_addon = ObservabilityAddon(
+        client=admin_client_scope_session,
+        name="observability-addon",
+        namespace="open-cluster-management-addon-observability",
+    )
+    assert observability_addon.exists
+    assert (
+        observability_addon.instance.status.conditions[-1].type
+        == observability_addon.Status.AVAILABLE
+    )
+
+    return observability_addon
+
+
+@pytest.fixture(scope="session")
+def rbac_proxy_route_url(admin_client_scope_session, observability_addon):
     rbac_proxy_route_url = Route(
         client=admin_client_scope_session,
         name="rbac-query-proxy",
@@ -30,18 +44,19 @@ def etcd_metrics_query(rbac_proxy_route_url, kubeadmin_token):
     )
     assert query_result.ok
 
-    query_data = json.loads(query_result.content.decode())
-    return query_data
+    return query_result.json()["data"]["result"]
 
 
 @pytest.fixture(scope="session")
-def multi_cluster_observability(admin_client_scope_session):
-    observability = MultiClusterObservability(
-        client=admin_client_scope_session, name="observability"
-    )
-    assert observability.exists
-    assert (
-        observability.instance.status.conditions[-1].type == observability.Status.READY
-    )
+def clusters_etcd_metrics(etcd_metrics_query):
+    clusters_etcd_metrics = {}
 
-    return observability
+    for metric_result in etcd_metrics_query:
+        metric_cluster = metric_result["metric"]["cluster"]
+        cluster_etcd_db_size = metric_result["value"][0]
+        if metric_cluster in clusters_etcd_metrics.keys():
+            clusters_etcd_metrics[metric_cluster].append(cluster_etcd_db_size)
+        else:
+            clusters_etcd_metrics[metric_cluster] = [cluster_etcd_db_size]
+
+    return clusters_etcd_metrics
