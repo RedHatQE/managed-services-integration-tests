@@ -6,6 +6,10 @@ from const import HUB_CLUSTER
 from ocp_resources.multi_cluster_observability import MultiClusterObservability
 from ocp_resources.route import Route
 from pytest_testconfig import config as py_config
+from simple_logger.logger import get_logger
+
+
+LOGGER = get_logger(name=__name__)
 
 
 @pytest.fixture(scope="session")
@@ -61,12 +65,10 @@ def clusters_etcd_metrics(etcd_metrics_query):
     clusters_etcd_metrics = {}
 
     for metric_result in etcd_metrics_query:
-        metric_cluster = metric_result["metric"]["cluster"]
         cluster_etcd_db_size = metric_result["value"][0]
-        if metric_cluster in clusters_etcd_metrics.keys():
-            clusters_etcd_metrics[metric_cluster].append(cluster_etcd_db_size)
-        else:
-            clusters_etcd_metrics[metric_cluster] = [cluster_etcd_db_size]
+        clusters_etcd_metrics.setdefault(metric_result["metric"]["cluster"], []).append(
+            cluster_etcd_db_size
+        )
 
     return clusters_etcd_metrics
 
@@ -78,7 +80,7 @@ def kubeadmin_token():
 
     assert token, (
         f"{kubeadmin_token_env_var_name} is not set neither as an environment variable"
-        " or an argument."
+        " or in a global config."
     )
     return token
 
@@ -86,7 +88,9 @@ def kubeadmin_token():
 @pytest.fixture(scope="session")
 def managed_clusters(clusters_etcd_metrics):
     managed_clusters = [
-        cluster for cluster in clusters_etcd_metrics.keys() if cluster != HUB_CLUSTER
+        cluster for cluster in clusters_etcd_metrics if cluster != HUB_CLUSTER
     ]
+    assert managed_clusters, "No managed clusters metrics found"
+    LOGGER.info(f"ACM managed clusters: {managed_clusters}")
 
     return managed_clusters
