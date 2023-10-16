@@ -1,27 +1,25 @@
 import pytest
 import requests
-from ocp_resources.observability_addon import ObservabilityAddon
+from ocp_resources.multi_cluster_observability import MultiClusterObservability
 from ocp_resources.route import Route
 
 
 @pytest.fixture(scope="session")
-def observability_addon(admin_client_scope_session):
-    observability_addon = ObservabilityAddon(
+def multi_cluster_observability(admin_client_scope_session):
+    observability = MultiClusterObservability(
         client=admin_client_scope_session,
-        name="observability-addon",
-        namespace="open-cluster-management-addon-observability",
+        name="observability",
     )
-    assert observability_addon.exists
+    assert observability.exists
     assert (
-        observability_addon.instance.status.conditions[-1].type
-        == observability_addon.Status.AVAILABLE
+        observability.instance.status.conditions[-1].type == observability.Status.READY
     )
 
-    return observability_addon
+    return observability
 
 
 @pytest.fixture(scope="session")
-def rbac_proxy_route_url(admin_client_scope_session, observability_addon):
+def rbac_proxy_route_url(admin_client_scope_session, multi_cluster_observability):
     rbac_proxy_route_url = Route(
         client=admin_client_scope_session,
         name="rbac-query-proxy",
@@ -42,7 +40,10 @@ def etcd_metrics_query(rbac_proxy_route_url, kubeadmin_token):
         headers=query_headers,
         verify=False,
     )
-    assert query_result.ok
+    assert query_result.ok, (
+        f"Query request failed with status {query_result.status_code}:"
+        f" {query_result.reason}"
+    )
 
     return query_result.json()["data"]["result"]
 
