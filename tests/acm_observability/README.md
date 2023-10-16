@@ -8,5 +8,3 @@ Example:
 ```bash
 poetry run pytest -m acm_observability --cluster-name={cluster name} --tc=kubeadmin_token:{kubedmin token}
 ```
-
-Note: Make sure that the `OCM_TOKEN` environment variable is set as well
