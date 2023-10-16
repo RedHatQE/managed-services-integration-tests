@@ -1,7 +1,10 @@
+import os
+
 import pytest
 import requests
 from ocp_resources.multi_cluster_observability import MultiClusterObservability
 from ocp_resources.route import Route
+from pytest_testconfig import config as py_config
 
 
 @pytest.fixture(scope="session")
@@ -61,3 +64,12 @@ def clusters_etcd_metrics(etcd_metrics_query):
             clusters_etcd_metrics[metric_cluster] = [cluster_etcd_db_size]
 
     return clusters_etcd_metrics
+
+
+@pytest.fixture(scope="session")
+def kubeadmin_token():
+    kubeadmin_token_env_var_name = "KUBEADMIN_TOKEN"
+    token = os.getenv(kubeadmin_token_env_var_name, py_config["kubeadmin_token"])
+
+    assert token, f"{kubeadmin_token_env_var_name} environment variable is not set."
+    return token

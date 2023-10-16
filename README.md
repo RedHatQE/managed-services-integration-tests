@@ -155,6 +155,17 @@ OCM_TOKEN
 poetry run pytest ... --ocp-target-version {OCP version} -m hypershift_install
 ```
 
+### ACM Observability tests
+
+To run ACM Observability tests make sure that the `KUBEADMIN_TOKEN` environment variable is set or provide
+it within the execution command along with the target cluster name.
+
+Example:
+
+```bash
+poetry run pytest -m acm_observability --cluster-name={cluster name} --tc=kubeadmin_token:{kubedmin token}
+```
+
 ## Building and pushing tests container image
 
 Container can be generated and pushed using make targets.
