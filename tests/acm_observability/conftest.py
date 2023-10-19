@@ -14,16 +14,17 @@ LOGGER = get_logger(name=__name__)
 
 @pytest.fixture(scope="session")
 def multi_cluster_observability(admin_client_scope_session):
-    observability_name = "observability"
     observability = MultiClusterObservability(
         client=admin_client_scope_session,
-        name=observability_name,
+        name="observability",
     )
     assert (
         observability.exists
-    ), f"{observability_name} MultiClusterObservability does not exist"
-    assert (
-        observability.instance.status.conditions[-1].type == observability.Status.READY
+    ), f"{observability.name} MultiClusterObservability does not exist"
+    observability.wait_for_condition(
+        condition=observability.Condition.READY,
+        status=observability.Condition.Status.TRUE,
+        timeout=5,
     )
 
     return observability
@@ -31,15 +32,14 @@ def multi_cluster_observability(admin_client_scope_session):
 
 @pytest.fixture(scope="session")
 def rbac_proxy_route_url(admin_client_scope_session, multi_cluster_observability):
-    rbac_proxy_route_name = "rbac-query-proxy"
-    rbac_proxy_route_url = Route(
+    rbac_proxy_route = Route(
         client=admin_client_scope_session,
-        name=rbac_proxy_route_name,
+        name="rbac-query-proxy",
         namespace="open-cluster-management-observability",
     )
-    assert rbac_proxy_route_url.exists, f"{rbac_proxy_route_name} Route does not exist"
+    assert rbac_proxy_route.exists, f"{rbac_proxy_route.name} Route does not exist"
 
-    return rbac_proxy_route_url.instance.spec.host
+    return rbac_proxy_route.instance.spec.host
 
 
 @pytest.fixture(scope="session")
@@ -65,9 +65,8 @@ def clusters_etcd_metrics(etcd_metrics_query):
     clusters_etcd_metrics = {}
 
     for metric_result in etcd_metrics_query:
-        cluster_etcd_db_size = metric_result["value"][0]
         clusters_etcd_metrics.setdefault(metric_result["metric"]["cluster"], []).append(
-            cluster_etcd_db_size
+            metric_result["value"][0]
         )
 
     return clusters_etcd_metrics
@@ -76,17 +75,19 @@ def clusters_etcd_metrics(etcd_metrics_query):
 @pytest.fixture(scope="session")
 def kubeadmin_token():
     kubeadmin_token_env_var_name = "KUBEADMIN_TOKEN"
-    token = os.getenv(kubeadmin_token_env_var_name, py_config["kubeadmin_token"])
+    token = os.getenv(
+        kubeadmin_token_env_var_name, py_config.get("kubeadmin_token", "")
+    )
 
     assert token, (
         f"{kubeadmin_token_env_var_name} is not set neither as an environment variable"
-        " or in a global config."
+        " or via pytest command line using --tc:kubeadmin_token=<kubeadmin token>"
     )
     return token
 
 
 @pytest.fixture(scope="session")
-def managed_clusters(clusters_etcd_metrics):
+def observability_managed_clusters(clusters_etcd_metrics):
     managed_clusters = [
         cluster for cluster in clusters_etcd_metrics if cluster != HUB_CLUSTER
     ]
