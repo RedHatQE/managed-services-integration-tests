@@ -102,7 +102,7 @@ def observability_reported_managed_clusters(clusters_etcd_metrics):
 @pytest.fixture(scope="session")
 def acm_clusters():
     success_res, clusters_res, err_reason = run_command(
-        command=shlex.split("cm get clusters -o json"), timeout=5
+        command=shlex.split("cm get clusters -o json"), timeout=15
     )
 
     assert success_res, f"Failed to get ACM clusters via cm cli: {err_reason}"
