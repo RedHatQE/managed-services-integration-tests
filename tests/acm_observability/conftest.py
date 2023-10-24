@@ -1,10 +1,13 @@
+import json
 import os
+import shlex
 
 import pytest
 import requests
 from const import HUB_CLUSTER
 from ocp_resources.multi_cluster_observability import MultiClusterObservability
 from ocp_resources.route import Route
+from ocp_utilities.utils import run_command
 from pytest_testconfig import config as py_config
 from simple_logger.logger import get_logger
 
@@ -56,7 +59,6 @@ def etcd_metrics_query(rbac_proxy_route_url, kubeadmin_token):
         f"Query request failed with status {query_result.status_code}:"
         f" {query_result.reason}"
     )
-
     return query_result.json()["data"]["result"]
 
 
@@ -87,11 +89,37 @@ def kubeadmin_token():
 
 
 @pytest.fixture(scope="session")
-def observability_managed_clusters(clusters_etcd_metrics):
+def observability_reported_managed_clusters(clusters_etcd_metrics):
     managed_clusters = [
         cluster for cluster in clusters_etcd_metrics if cluster != HUB_CLUSTER
     ]
     assert managed_clusters, "No managed clusters metrics found"
+    LOGGER.info(f"Observability reported managed clusters: {managed_clusters}")
+
+    return managed_clusters
+
+
+@pytest.fixture(scope="session")
+def acm_clusters():
+    success_res, clusters_res, err_reason = run_command(
+        command=shlex.split("cm get clusters -o json"), timeout=5
+    )
+
+    assert success_res, f"Failed to get ACM clusters via cm cli: {err_reason}"
+
+    return json.loads(clusters_res)["items"]
+
+
+@pytest.fixture(scope="session")
+def acm_managed_clusters(acm_clusters):
+    managed_clusters = []
+
+    for i in range(len(acm_clusters)):
+        acm_cluster = acm_clusters[i]["metadata"]["labels"]["name"]
+        if acm_cluster != HUB_CLUSTER:
+            managed_clusters.append(acm_cluster)
+
+    assert managed_clusters, "No ACM managed clusters found"
     LOGGER.info(f"ACM managed clusters: {managed_clusters}")
 
     return managed_clusters
