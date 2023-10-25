@@ -5,7 +5,7 @@ it within the execution command along with the target cluster name.
 
 To obtain the kubeadmin token via Openshift CLI:
 
-```text
+```bash
 oc login --username=kubeadmin --password=<kubeadmin password>
 oc whoami -t
 ```
