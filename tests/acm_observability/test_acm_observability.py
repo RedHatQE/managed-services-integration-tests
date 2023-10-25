@@ -25,7 +25,7 @@ class TestACMObservability:
             f"are reported via observability: {observability_not_reported_clusters}"
         )
 
-    def test_hub_etcd_metrics_exist(
+    def test_hub_etcd_metrics_exist_and_valid(
         self,
         clusters_etcd_metrics,
     ):
@@ -36,7 +36,7 @@ class TestACMObservability:
             f" {clusters_etcd_metrics[HUB_CLUSTER][-1]}"
         )
 
-    def test_managed_etcd_metrics_exist(
+    def test_managed_etcd_metrics_exist_and_valid(
         self, clusters_etcd_metrics, observability_reported_managed_clusters
     ):
         for managed_cluster in observability_reported_managed_clusters:
