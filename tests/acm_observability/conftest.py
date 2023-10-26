@@ -120,7 +120,7 @@ def acm_managed_clusters(acm_clusters):
     managed_clusters = []
 
     for i in range(len(acm_clusters)):
-        acm_cluster = acm_clusters[i]["metadata"]["labels"]["name"]
+        acm_cluster = acm_clusters[i]["metadata"]["name"]
         if acm_cluster != HUB_CLUSTER:
             managed_clusters.append(acm_cluster)
 
