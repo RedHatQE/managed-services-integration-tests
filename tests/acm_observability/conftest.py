@@ -55,6 +55,7 @@ def etcd_metrics_query(rbac_proxy_route_url, kubeadmin_token):
         headers=query_headers,
         verify=False,
     )
+
     assert query_result.ok, (
         f"Query request failed with status {query_result.status_code}:"
         f" {query_result.reason}"
@@ -105,7 +106,11 @@ def acm_clusters():
         command=shlex.split("cm get clusters -o json"), timeout=15
     )
 
-    assert success_res, f"Failed to get ACM clusters via cm cli: {err_reason}"
+    # Since cm cli returns acm clusters data even if command fails. see issue below:
+    # https://github.com/stolostron/cm-cli/issues/256
+    assert (
+        success_res or clusters_res
+    ), f"Failed to get ACM clusters via cm cli: {err_reason}"
 
     return json.loads(clusters_res)["items"]
 
