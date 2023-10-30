@@ -47,18 +47,18 @@ def rbac_proxy_route_url(admin_client_scope_session, multi_cluster_observability
 
 @pytest.fixture(scope="session")
 def etcd_metrics_query(rbac_proxy_route_url, kubeadmin_token):
-    query_headers = {
-        "Authorization": f"Bearer {kubeadmin_token}",
-    }
+    query_name = "etcd_debugging_mvcc_db_total_size_in_bytes"
     query_result = requests.get(
-        url=f"https://{rbac_proxy_route_url}/api/v1/query?query=etcd_debugging_mvcc_db_total_size_in_bytes",
-        headers=query_headers,
-        verify=False,
+        url=f"https://{rbac_proxy_route_url}/api/v1/query?query={query_name}",
+        headers={
+            "Authorization": f"Bearer {kubeadmin_token}",
+        },
+        verify=False,  # TODO: add certificate to verify query
     )
 
     assert query_result.ok, (
-        f"Query request failed with status {query_result.status_code}:"
-        f" {query_result.reason}"
+        f"Query request at {rbac_proxy_route_url} for {query_name} metric failed with"
+        f" status {query_result.status_code}: {query_result.reason}"
     )
     return query_result.json()["data"]["result"]
 
@@ -83,9 +83,11 @@ def kubeadmin_token():
     )
 
     assert token, (
-        f"{kubeadmin_token_env_var_name} is not set neither as an environment variable"
-        " or via pytest command line using --tc:kubeadmin_token=<kubeadmin token>"
+        "kubeadmin token is not set; either set as an environment variable"
+        f" {kubeadmin_token_env_var_name} or via pytest command line using"
+        " --tc:kubeadmin_token=<kubeadmin token>"
     )
+
     return token
 
 
@@ -119,10 +121,10 @@ def acm_clusters():
 def acm_managed_clusters(acm_clusters):
     managed_clusters = []
 
-    for i in range(len(acm_clusters)):
-        acm_cluster = acm_clusters[i]["metadata"]["name"]
-        if acm_cluster != HUB_CLUSTER:
-            managed_clusters.append(acm_cluster)
+    for acm_cluster in acm_clusters:
+        acm_cluster_name = acm_cluster["metadata"]["name"]
+        if acm_cluster_name != HUB_CLUSTER:
+            managed_clusters.append(acm_cluster_name)
 
     assert managed_clusters, "No ACM managed clusters found"
     LOGGER.info(f"ACM managed clusters: {managed_clusters}")

@@ -22,7 +22,8 @@ class TestACMObservability:
         ]
         assert not observability_not_reported_clusters, (
             "Not all ACM clusters "
-            f"are reported via observability: {observability_not_reported_clusters}"
+            f"are reported via observability: {observability_not_reported_clusters}, "
+            f"clusters expected: {acm_managed_clusters}"
         )
 
     def test_hub_etcd_metrics_exist_and_valid(
