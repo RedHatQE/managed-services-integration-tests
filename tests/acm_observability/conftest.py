@@ -1,13 +1,11 @@
-import json
 import os
-import shlex
 
 import pytest
 import requests
 from const import HUB_CLUSTER
+from ocp_resources.managed_cluster import ManagedCluster
 from ocp_resources.multi_cluster_observability import MultiClusterObservability
 from ocp_resources.route import Route
-from ocp_utilities.utils import run_command
 from pytest_testconfig import config as py_config
 from simple_logger.logger import get_logger
 
@@ -103,28 +101,13 @@ def observability_reported_managed_clusters(clusters_etcd_metrics):
 
 
 @pytest.fixture(scope="session")
-def acm_clusters():
-    success_res, clusters_res, err_reason = run_command(
-        command=shlex.split("cm get clusters -o json"), timeout=15
-    )
-
-    # Since cm cli returns acm clusters data even if command fails. see issue below:
-    # https://github.com/stolostron/cm-cli/issues/256
-    assert (
-        success_res or clusters_res
-    ), f"Failed to get ACM clusters via cm cli: {err_reason}"
-
-    return json.loads(clusters_res)["items"]
-
-
-@pytest.fixture(scope="session")
-def acm_managed_clusters(acm_clusters):
+def acm_managed_clusters(admin_client_scope_session):
     managed_clusters = []
 
-    for acm_cluster in acm_clusters:
-        acm_cluster_name = acm_cluster["metadata"]["name"]
-        if acm_cluster_name != HUB_CLUSTER:
-            managed_clusters.append(acm_cluster_name)
+    for cluster in ManagedCluster.get(dyn_client=admin_client_scope_session):
+        cluster_name = cluster.name
+        if cluster_name != HUB_CLUSTER:
+            managed_clusters.append(cluster_name)
 
     assert managed_clusters, "No ACM managed clusters found"
     LOGGER.info(f"ACM managed clusters: {managed_clusters}")
