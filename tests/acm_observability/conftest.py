@@ -102,12 +102,11 @@ def observability_reported_managed_clusters(clusters_etcd_metrics):
 
 @pytest.fixture(scope="session")
 def acm_managed_clusters(admin_client_scope_session):
-    managed_clusters = []
-
-    for cluster in ManagedCluster.get(dyn_client=admin_client_scope_session):
-        cluster_name = cluster.name
-        if cluster_name != HUB_CLUSTER:
-            managed_clusters.append(cluster_name)
+    managed_clusters = [
+        cluster_name
+        for cluster in ManagedCluster.get(dyn_client=admin_client_scope_session)
+        if ((cluster_name := cluster.name) != HUB_CLUSTER)
+    ]
 
     assert managed_clusters, "No ACM managed clusters found"
     LOGGER.info(f"ACM managed clusters: {managed_clusters}")
