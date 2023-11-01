@@ -1,46 +1,40 @@
 import pytest
-from const import HUB_CLUSTER
 
 
-pytestmark = pytest.mark.acm_observability
-
-
-def assert_cluster_etcd_metrics_value_is_valid(clusters_etcd, cluster_name):
-    # Checking given cluster's last etcd db size metric updated via observability
-    latest_etcd_db_size = clusters_etcd[cluster_name][-1]
-    assert isinstance(latest_etcd_db_size, float) and latest_etcd_db_size > 0, (
-        f"{cluster_name} cluster etcd db size metric value is invalid:"
-        f" {latest_etcd_db_size}"
-    )
+pytestmark = [pytest.mark.acm_observability, pytest.mark.usefixtures("kubeadmin_token")]
 
 
 class TestACMObservability:
     def test_all_clusters_metrics_reported(
-        self, observability_reported_managed_clusters, acm_managed_clusters
+        self, observability_reported_clusters, acm_clusters
     ):
-        observability_not_reported_clusters = [
+        observability_missing_report_clusters = [
             cluster
-            for cluster in acm_managed_clusters
-            if cluster not in observability_reported_managed_clusters
+            for cluster in acm_clusters
+            if cluster not in observability_reported_clusters
         ]
-        assert not observability_not_reported_clusters, (
+        assert not observability_missing_report_clusters, (
             "Not all ACM clusters "
-            f"are reported via observability: {observability_not_reported_clusters}, "
-            f"clusters expected: {acm_managed_clusters}"
+            f"are reported via observability: {observability_missing_report_clusters}, "
+            f"clusters expected: {acm_clusters}"
         )
 
-    def test_hub_etcd_metrics_exist_and_valid(
-        self,
-        clusters_etcd_metrics,
+    def test_acm_clusters_etcd_metrics_exist_and_valid(
+        self, clusters_etcd_metrics, observability_reported_clusters
     ):
-        assert_cluster_etcd_metrics_value_is_valid(
-            clusters_etcd=clusters_etcd_metrics, cluster_name=HUB_CLUSTER
-        )
+        failed_acm_clusters = {}
 
-    def test_managed_etcd_metrics_exist_and_valid(
-        self, clusters_etcd_metrics, observability_reported_managed_clusters
-    ):
-        for managed_cluster in observability_reported_managed_clusters:
-            assert_cluster_etcd_metrics_value_is_valid(
-                clusters_etcd=clusters_etcd_metrics, cluster_name=managed_cluster
-            )
+        for cluster_name in observability_reported_clusters:
+            # Checking given cluster's last etcd db size metric updated via observability
+            latest_etcd_db_size = clusters_etcd_metrics[cluster_name][-1]
+            if not (isinstance(latest_etcd_db_size, float) and latest_etcd_db_size > 0):
+                failed_acm_clusters[cluster_name] = latest_etcd_db_size
+
+        assert (
+            not failed_acm_clusters
+        ), "The following ACM clusters etcd db size metric is invalid:\n" + "\n".join(
+            [
+                f"{cluster_name}: {invalid_etcd_db_size}"
+                for cluster_name, invalid_etcd_db_size in failed_acm_clusters.items()
+            ]
+        )

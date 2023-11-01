@@ -2,7 +2,6 @@ import os
 
 import pytest
 import requests
-from const import HUB_CLUSTER
 from ocp_resources.managed_cluster import ManagedCluster
 from ocp_resources.multi_cluster_observability import MultiClusterObservability
 from ocp_resources.route import Route
@@ -11,6 +10,22 @@ from simple_logger.logger import get_logger
 
 
 LOGGER = get_logger(name=__name__)
+
+
+@pytest.fixture(scope="session")
+def kubeadmin_token():
+    kubeadmin_token_env_var_name = "KUBEADMIN_TOKEN"
+    token = os.getenv(
+        kubeadmin_token_env_var_name, py_config.get("kubeadmin_token", "")
+    )
+
+    assert token, (
+        "kubeadmin token is not set; either set as an environment variable"
+        f" {kubeadmin_token_env_var_name} or via pytest command line using"
+        " --tc:kubeadmin_token=<kubeadmin token>"
+    )
+
+    return token
 
 
 @pytest.fixture(scope="session")
@@ -74,41 +89,24 @@ def clusters_etcd_metrics(etcd_metrics_query):
 
 
 @pytest.fixture(scope="session")
-def kubeadmin_token():
-    kubeadmin_token_env_var_name = "KUBEADMIN_TOKEN"
-    token = os.getenv(
-        kubeadmin_token_env_var_name, py_config.get("kubeadmin_token", "")
-    )
-
-    assert token, (
-        "kubeadmin token is not set; either set as an environment variable"
-        f" {kubeadmin_token_env_var_name} or via pytest command line using"
-        " --tc:kubeadmin_token=<kubeadmin token>"
-    )
-
-    return token
-
-
-@pytest.fixture(scope="session")
-def observability_reported_managed_clusters(clusters_etcd_metrics):
-    managed_clusters = [
-        cluster for cluster in clusters_etcd_metrics if cluster != HUB_CLUSTER
+def observability_reported_clusters(clusters_etcd_metrics):
+    _observability_reported_clusters = [
+        cluster_name for cluster_name in clusters_etcd_metrics
     ]
-    assert managed_clusters, "No managed clusters metrics found"
-    LOGGER.info(f"Observability reported managed clusters: {managed_clusters}")
+    assert _observability_reported_clusters, "No clusters metrics found"
+    LOGGER.info(f"Observability reported clusters: {_observability_reported_clusters}")
 
-    return managed_clusters
+    return _observability_reported_clusters
 
 
 @pytest.fixture(scope="session")
-def acm_managed_clusters(admin_client_scope_session):
-    managed_clusters = [
-        cluster_name
+def acm_clusters(admin_client_scope_session):
+    _acm_clusters = [
+        cluster.name
         for cluster in ManagedCluster.get(dyn_client=admin_client_scope_session)
-        if ((cluster_name := cluster.name) != HUB_CLUSTER)
     ]
 
-    assert managed_clusters, "No ACM managed clusters found"
-    LOGGER.info(f"ACM managed clusters: {managed_clusters}")
+    assert _acm_clusters, "No ACM clusters found"
+    LOGGER.info(f"ACM clusters: {_acm_clusters}")
 
-    return managed_clusters
+    return _acm_clusters
