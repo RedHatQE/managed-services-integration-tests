@@ -15,9 +15,7 @@ LOGGER = get_logger(name=__name__)
 @pytest.fixture(scope="session")
 def kubeadmin_token():
     kubeadmin_token_env_var_name = "KUBEADMIN_TOKEN"
-    token = os.getenv(
-        kubeadmin_token_env_var_name, py_config.get("kubeadmin_token", "")
-    )
+    token = os.getenv(kubeadmin_token_env_var_name, py_config.get("kubeadmin_token", ""))
 
     assert token, (
         "kubeadmin token is not set; either set as an environment variable"
@@ -34,9 +32,7 @@ def multi_cluster_observability(admin_client_scope_session):
         client=admin_client_scope_session,
         name="observability",
     )
-    assert (
-        observability.exists
-    ), f"{observability.name} MultiClusterObservability does not exist"
+    assert observability.exists, f"{observability.name} MultiClusterObservability does not exist"
     observability.wait_for_condition(
         condition=observability.Condition.READY,
         status=observability.Condition.Status.TRUE,
@@ -81,18 +77,14 @@ def clusters_etcd_metrics(etcd_metrics_query):
     clusters_etcd_metrics = {}
 
     for metric_result in etcd_metrics_query:
-        clusters_etcd_metrics.setdefault(metric_result["metric"]["cluster"], []).append(
-            metric_result["value"][0]
-        )
+        clusters_etcd_metrics.setdefault(metric_result["metric"]["cluster"], []).append(metric_result["value"][0])
 
     return clusters_etcd_metrics
 
 
 @pytest.fixture(scope="session")
 def observability_reported_clusters(clusters_etcd_metrics):
-    _observability_reported_clusters = [
-        cluster_name for cluster_name in clusters_etcd_metrics
-    ]
+    _observability_reported_clusters = [cluster_name for cluster_name in clusters_etcd_metrics]
     assert _observability_reported_clusters, "No clusters metrics found"
     LOGGER.info(f"Observability reported clusters: {_observability_reported_clusters}")
 
@@ -101,10 +93,7 @@ def observability_reported_clusters(clusters_etcd_metrics):
 
 @pytest.fixture(scope="session")
 def acm_clusters(admin_client_scope_session):
-    _acm_clusters = [
-        cluster.name
-        for cluster in ManagedCluster.get(dyn_client=admin_client_scope_session)
-    ]
+    _acm_clusters = [cluster.name for cluster in ManagedCluster.get(dyn_client=admin_client_scope_session)]
 
     assert _acm_clusters, "No ACM clusters found"
     LOGGER.info(f"ACM clusters: {_acm_clusters}")
