@@ -70,7 +70,7 @@ def etcd_metrics_query(rbac_proxy_route_url, kubeadmin_token):
     )
 
     assert query_result.ok, (
-        f"Query request at {rbac_proxy_route_url} for {query_name} metric failed with"
+        f"Query request at {rbac_proxy_route_url} for '{query_name}' metric failed with"
         f" status {query_result.status_code}: {query_result.reason}"
     )
     return query_result.json()["data"]["result"]
