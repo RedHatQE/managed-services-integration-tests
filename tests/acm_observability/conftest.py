@@ -79,13 +79,14 @@ def clusters_etcd_metrics(etcd_metrics_query):
     for metric_result in etcd_metrics_query:
         clusters_etcd_metrics.setdefault(metric_result["metric"]["cluster"], []).append(metric_result["value"][0])
 
+    assert clusters_etcd_metrics, "No clusters metrics found"
+
     return clusters_etcd_metrics
 
 
 @pytest.fixture(scope="session")
 def observability_reported_clusters(clusters_etcd_metrics):
     _observability_reported_clusters = [cluster_name for cluster_name in clusters_etcd_metrics]
-    assert _observability_reported_clusters, "No clusters metrics found"
     LOGGER.info(f"Observability reported clusters: {_observability_reported_clusters}")
 
     return _observability_reported_clusters

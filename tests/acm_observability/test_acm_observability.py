@@ -24,9 +24,6 @@ class TestACMObservability:
             if not (isinstance(latest_etcd_db_size, float) and latest_etcd_db_size > 0):
                 failed_acm_clusters[cluster_name] = latest_etcd_db_size
 
-        assert not failed_acm_clusters, "The following ACM clusters etcd db size metric is invalid:\n" + "\n".join(
-            [
-                f"{cluster_name}: {invalid_etcd_db_size}"
-                for cluster_name, invalid_etcd_db_size in failed_acm_clusters.items()
-            ]
-        )
+        assert (
+            not failed_acm_clusters
+        ), f"The following ACM clusters etcd db size metric is invalid: {failed_acm_clusters}"
