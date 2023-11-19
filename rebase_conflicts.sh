@@ -36,4 +36,3 @@ function rebase_main_to_branch() {
 
 # Run the rebase
 rebase_main_to_branch
-
