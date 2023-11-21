@@ -43,5 +43,5 @@ RUN GH_HOST=dummy gh -R https://github.com/openshift/rosa release download -p 'r
 
 ENV OPENSHIFT_PYTHON_WRAPPER_LOG_LEVEL=DEBUG
 
-ENTRYPOINT ["sleep", "1h"]
-# CMD ["--collect-only"]
+ENTRYPOINT ["poetry", "run", "pytest"]
+CMD ["--collect-only"]
