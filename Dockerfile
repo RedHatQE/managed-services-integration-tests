@@ -15,7 +15,8 @@ RUN dnf -y install epel-release dnf-plugins-core && \
     libxml2-devel \
     openssl-devel \
     terraform \
-    gh && \
+    gh \
+    wget && \
     dnf clean all && \
     rm -rf /var/cache/yum
 
@@ -27,6 +28,8 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 # https://github.com/cli/cli/issues/2680#issuecomment-1345491083
 RUN GH_HOST=dummy gh -R https://github.com/openshift/rosa release download -p 'rosa-linux-amd64' -O /usr/bin/rosa && \
     chmod +x /usr/bin/rosa && \
+    wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && \
+    chmod +x /usr/bin/yq && \
     python3 -m pip install pip --upgrade && \
     python3 -m pip install poetry && \
     poetry config cache-dir /managed-services-integration-tests && \
@@ -40,5 +43,5 @@ RUN GH_HOST=dummy gh -R https://github.com/openshift/rosa release download -p 'r
 
 ENV OPENSHIFT_PYTHON_WRAPPER_LOG_LEVEL=DEBUG
 
-ENTRYPOINT ["poetry", "run", "pytest"]
-CMD ["--collect-only"]
+ENTRYPOINT ["sleep", "1h"]
+# CMD ["--collect-only"]
