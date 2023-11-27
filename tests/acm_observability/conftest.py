@@ -42,12 +42,12 @@ def rbac_query_proxy_bearer_token(admin_client_scope_session):
 
 
 @pytest.fixture(scope="session")
-def etcd_metrics_query(admin_client_scope_session, rbac_proxy_query_bearer_token):
+def etcd_metrics_query(admin_client_scope_session, rbac_query_proxy_bearer_token):
     return Prometheus(
         client=admin_client_scope_session,
         resource_name="rbac-query-proxy",
         namespace="open-cluster-management-observability",
-        bearer_token=rbac_proxy_query_bearer_token,
+        bearer_token=rbac_query_proxy_bearer_token,
     ).query_sampler(query="etcd_debugging_mvcc_db_total_size_in_bytes")
 
 
