@@ -616,32 +616,6 @@ files = [
 
 [[package]]
 name = "kubernetes"
-version = "27.2.0"
-description = "Kubernetes python client"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "kubernetes-27.2.0-py2.py3-none-any.whl", hash = "sha256:0f9376329c85cf07615ed6886bf9bf21eb1cbfc05e14ec7b0f74ed8153cd2815"},
-    {file = "kubernetes-27.2.0.tar.gz", hash = "sha256:d479931c6f37561dbfdf28fc5f46384b1cb8b28f9db344ed4a232ce91990825a"},
-]
-
-[package.dependencies]
-certifi = ">=14.05.14"
-google-auth = ">=1.0.1"
-oauthlib = ">=3.2.2"
-python-dateutil = ">=2.5.3"
-pyyaml = ">=5.4.1"
-requests = "*"
-requests-oauthlib = "*"
-six = ">=1.9.0"
-urllib3 = ">=1.24.2"
-websocket-client = ">=0.32.0,<0.40.0 || >0.40.0,<0.41.dev0 || >=0.43.dev0"
-
-[package.extras]
-adal = ["adal (>=1.0.2)"]
-
-[[package]]
-name = "kubernetes"
 version = "28.1.0"
 description = "Kubernetes python client"
 optional = false
@@ -848,24 +822,6 @@ pytest-testconfig = ">=0.2.0,<0.3.0"
 python-simple-logger = ">=1.0.5,<2.0.0"
 pyyaml = ">=6.0.1,<7.0.0"
 timeout-sampler = ">=0.0.1,<0.0.2"
-
-[[package]]
-name = "openshift-python-wrapper"
-version = "4.15.1"
-description = "Wrapper around https://github.com/kubernetes-client/python"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "openshift_python_wrapper-4.15.1.tar.gz", hash = "sha256:18888bf3661155051fe17f6f217eef235e6089c20ade65e1409f279ffb4035b6"},
-]
-
-[package.dependencies]
-colorlog = ">=6.7.0,<7.0.0"
-kubernetes = ">=27.2.0,<28.0.0"
-packaging = ">=23.1,<24.0"
-python-benedict = ">=0.32.0,<0.33.0"
-python-simple-logger = ">=1.0.6,<2.0.0"
-xmltodict = ">=0.13.0,<0.14.0"
 
 [[package]]
 name = "openshift-python-wrapper"
@@ -1640,23 +1596,6 @@ secure = ["certifi", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "ipaddress", "p
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
-name = "urllib3"
-version = "2.0.7"
-description = "HTTP library with thread-safe connection pooling, file post, and more."
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "urllib3-2.0.7-py3-none-any.whl", hash = "sha256:fdb6d215c776278489906c2f8916e6e7d4f5a9b602ccbcfdf7f016fc8da0596e"},
-    {file = "urllib3-2.0.7.tar.gz", hash = "sha256:c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84"},
-]
-
-[package.extras]
-brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
-secure = ["certifi", "cryptography (>=1.9)", "idna (>=2.0.0)", "pyopenssl (>=17.1.0)", "urllib3-secure-extra"]
-socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
-zstd = ["zstandard (>=0.18.0)"]
-
-[[package]]
 name = "wcwidth"
 version = "0.2.13"
 description = "Measures the displayed width of unicode strings in a terminal"
@@ -1697,4 +1636,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "14b7461016cf961e490467730fe81cbcd140490bcdb9a3fb81eecff2ef3f2dc8"
+content-hash = "dde974344884d5eeba7ef0f4d08d1a768c67748f739bcdf5a3f878ce3f368634"
