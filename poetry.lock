@@ -741,12 +741,12 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "openshift-cli-installer"
-version = "2.0.24"
+version = "2.0.25"
 description = "CLI to install/uninstall Openshift clusters."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "openshift_cli_installer-2.0.24.tar.gz", hash = "sha256:ba16b6198c4945fd2dea47000d13a9edf4be379a7086d440ca65517b2fe2e2fc"},
+    {file = "openshift_cli_installer-2.0.25.tar.gz", hash = "sha256:53b23cb50882790a2df626f191dc8a620b040d84c4e93fb62d0f0e4be13a9798"},
 ]
 
 [package.dependencies]
@@ -1324,12 +1324,12 @@ files = [
 
 [[package]]
 name = "redhat-qe-cloud-tools"
-version = "1.0.30"
+version = "1.0.31"
 description = "Python utilities to manage cloud services, such as AWS."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "redhat_qe_cloud_tools-1.0.30.tar.gz", hash = "sha256:c4d88704986809e70c9d4313045ae26f918c0d06117396555084533b1ab99769"},
+    {file = "redhat_qe_cloud_tools-1.0.31.tar.gz", hash = "sha256:7f19030c2784a3d99f7f84c21112db7b5ae20664682f2e1901535c83348b94a7"},
 ]
 
 [package.dependencies]
