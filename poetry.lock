@@ -1217,12 +1217,12 @@ files = [
 
 [[package]]
 name = "python-simple-logger"
-version = "1.0.11"
+version = "1.0.12"
 description = "A simple logger for python"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "python_simple_logger-1.0.11.tar.gz", hash = "sha256:6c800093d276ea63be175d99537ddaca79a295b0f865602c0582a1464dd45b72"},
+    {file = "python_simple_logger-1.0.12.tar.gz", hash = "sha256:94f2745e637abea2bfb01a1d6549aa154b92684e72ae55fc04ca950f9651e762"},
 ]
 
 [package.dependencies]
@@ -1351,12 +1351,12 @@ files = [
 
 [[package]]
 name = "redhat-qe-cloud-tools"
-version = "1.0.40"
+version = "1.0.41"
 description = "Python utilities to manage cloud services, such as AWS."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "redhat_qe_cloud_tools-1.0.40.tar.gz", hash = "sha256:369f0eaab8e3ccdd118c82eac860a2b469a84f9707df5e201e84c64e23b7dc48"},
+    {file = "redhat_qe_cloud_tools-1.0.41.tar.gz", hash = "sha256:4fb049f7c5d91f3750be6b60f1f05b827780e8b8eee0d15edeed3a58592731a8"},
 ]
 
 [package.dependencies]
@@ -1409,12 +1409,12 @@ rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [[package]]
 name = "rosa-python-client"
-version = "1.0.54"
+version = "1.0.55"
 description = "Wrapper for rosa cli"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "rosa_python_client-1.0.54.tar.gz", hash = "sha256:b347cae0b3cbc7f980a0d9be38a40d5403360ccb634c792a8571879ba8a56ef6"},
+    {file = "rosa_python_client-1.0.55.tar.gz", hash = "sha256:8b75141e71d0a35fd1d23439305c82b4698ad8f0b9808bfae26b37505d1480cc"},
 ]
 
 [package.dependencies]
