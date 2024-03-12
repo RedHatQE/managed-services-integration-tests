@@ -762,12 +762,12 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "openshift-cli-installer"
-version = "2.0.41"
+version = "2.0.42"
 description = "CLI to install/uninstall Openshift clusters."
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "openshift_cli_installer-2.0.41.tar.gz", hash = "sha256:590947b45802f03356f08f06039a50c959cda4ad82ba7d56e603d42319db53cc"},
+    {file = "openshift_cli_installer-2.0.42.tar.gz", hash = "sha256:49a765af2fed55e4b27e7ddb1bf71bfefa823f5115c9c471887ee8f106067bf3"},
 ]
 
 [package.dependencies]
@@ -782,7 +782,7 @@ pyaml-env = ">=1.2.1,<2.0.0"
 pytest-testconfig = ">=0.2.0,<0.3.0"
 python-simple-logger = ">=1.0.7"
 python-terraform = ">=0.10.1,<0.11.0"
-redhat-qe-cloud-tools = ">=1.0.19"
+redhat-qe-cloud-tools = ">=1.0.46"
 requests = ">=2.31.0,<3.0.0"
 rosa-python-client = ">=1.0.36"
 ruff = ">=0.3.0,<0.4.0"
