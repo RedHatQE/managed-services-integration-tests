@@ -2,8 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
-      "groupName": "all"
+      "matchPackagePatterns": ["timeout-sampler", "openshift-python-utilities", "openshift-cli-installer", "python-simple-logger", "rosa-python-client", "redhat-qe-cloud-tools", "openshift-python-wrapper", "openshift-cluster-management-python-wrapper", "openshift-python-wrapper-data-collector"],
+      "groupName": "redhat-qe-python-modules"
     }
   ]
 }
