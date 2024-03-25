@@ -41,7 +41,7 @@ openshift-cli-installer = "^2.0.0"
 openshift-python-utilities = "^5.0.4"
 timeout-sampler = "^0.0.17"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 ipdb = "*"
 ipython = "*"
 
