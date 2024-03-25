@@ -2,8 +2,33 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "matchPackagePatterns": ["timeout-sampler", "openshift-python-utilities", "openshift-cli-installer", "python-simple-logger", "rosa-python-client", "redhat-qe-cloud-tools", "openshift-python-wrapper", "openshift-cluster-management-python-wrapper", "openshift-python-wrapper-data-collector"],
-      "groupName": "redhat-qe-python-modules"
+      "matchPackagePatterns": [
+        "pytest-progress",
+        "openshift-python-wrapper",
+        "docker",
+        "colorlog",
+        "openshift-cluster-management-python-wrapper",
+        "openshift-python-wrapper-data-collector",
+        "pytest",
+        "pytest-testconfig",
+        "hvac",
+        "pytz",
+        "pip",
+        "pyyaml",
+        "pytest-dependency",
+        "pytest-order",
+        "shortuuid",
+        "redhat-qe-cloud-tools",
+        "boto3",
+        "rosa-python-client",
+        "python-simple-logger",
+        "packaging",
+        "pyaml-env",
+        "openshift-cli-installer",
+        "openshift-python-utilities",
+        "timeout-sampler"
+      ],
+      "groupName": "poetry-deps"
     }
   ]
 }
