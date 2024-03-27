@@ -41,17 +41,17 @@ lxml = ["lxml"]
 
 [[package]]
 name = "boto3"
-version = "1.34.70"
+version = "1.34.71"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "boto3-1.34.70-py3-none-any.whl", hash = "sha256:8d7902e2c0c62837457ba18146e3feaf1dec62018617edc5c0336b65b305b682"},
-    {file = "boto3-1.34.70.tar.gz", hash = "sha256:54150a52eb93028b8e09df00319e8dcb68be7459333d5da00d706d75ba5130d6"},
+    {file = "boto3-1.34.71-py3-none-any.whl", hash = "sha256:7ce8c9a50af2f8a159a0dd86b40011d8dfdaba35005a118e51cd3ac72dc630f1"},
+    {file = "boto3-1.34.71.tar.gz", hash = "sha256:d786e7fbe3c4152866199786468a625dc77b9f27294cd7ad4f63cd2e0c927287"},
 ]
 
 [package.dependencies]
-botocore = ">=1.34.70,<1.35.0"
+botocore = ">=1.34.71,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.10.0,<0.11.0"
 
@@ -60,13 +60,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.34.70"
+version = "1.34.71"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "botocore-1.34.70-py3-none-any.whl", hash = "sha256:c86944114e85c8a8d5da06fb84f2609ed3bd23cd2fc06b30250bef7e37e8c589"},
-    {file = "botocore-1.34.70.tar.gz", hash = "sha256:fa03d4972cd57d505e6c0eb5d7c7a1caeb7dd49e84f963f7ebeca41fe8ab736e"},
+    {file = "botocore-1.34.71-py3-none-any.whl", hash = "sha256:3bc9e23aee73fe6f097823d61f79a8877790436038101a83fa96c7593e8109f8"},
+    {file = "botocore-1.34.71.tar.gz", hash = "sha256:c58f9ed71af2ea53d24146187130541222d7de8c27eb87d23f15457e7b83d88b"},
 ]
 
 [package.dependencies]
@@ -806,12 +806,12 @@ urllib3 = ">=1.25.3"
 
 [[package]]
 name = "openshift-cluster-management-python-wrapper"
-version = "1.0.92"
+version = "1.0.93"
 description = "Wrapper around https://github.com/openshift/openshift-cluster-management-python-client"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cluster_management_python_wrapper-1.0.92.tar.gz", hash = "sha256:ac005b03c49fdb74fd1c5e2cb04ff0ca5b7c89544188ccf6053a87dbd4f2d85b"},
+    {file = "openshift_cluster_management_python_wrapper-1.0.93.tar.gz", hash = "sha256:8596ab5caea212a01cd54eb25feae4076d752b95e0d7a0ae579f85212c155d4e"},
 ]
 
 [package.dependencies]
@@ -852,12 +852,12 @@ timeout-sampler = ">=0.0.17"
 
 [[package]]
 name = "openshift-python-wrapper"
-version = "10.0.24"
+version = "10.0.25"
 description = "Wrapper around https://github.com/kubernetes-client/python"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper-10.0.24.tar.gz", hash = "sha256:24bcabc632a1cf2375be8022dd77a7b123fcc6ff8ff823578f3dfdceddaafa9c"},
+    {file = "openshift_python_wrapper-10.0.25.tar.gz", hash = "sha256:800bd30356305a734549da63c57f4080ad619565c4f4b1bf88bc208689ad80e6"},
 ]
 
 [package.dependencies]
@@ -872,12 +872,12 @@ xmltodict = ">=0.13.0,<0.14.0"
 
 [[package]]
 name = "openshift-python-wrapper-data-collector"
-version = "1.0.31"
+version = "1.0.32"
 description = "Data collector for https://github.com/openshift/openshift-python-wrapper when running with PyTest"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper_data_collector-1.0.31.tar.gz", hash = "sha256:4d1e3c1de3513f96d7f043bf65aa49b41e83ca94ca388a42cff4d438031d7d85"},
+    {file = "openshift_python_wrapper_data_collector-1.0.32.tar.gz", hash = "sha256:24ca9f2be6bbb0b747ecb8d588331f895629b3552145f184b3b2b7627b8e0713"},
 ]
 
 [package.dependencies]
@@ -1354,12 +1354,12 @@ files = [
 
 [[package]]
 name = "redhat-qe-cloud-tools"
-version = "1.0.53"
+version = "1.0.54"
 description = "Python utilities to manage cloud services, such as AWS."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "redhat_qe_cloud_tools-1.0.53.tar.gz", hash = "sha256:c9bfc03d19e1a77fdd886953a3ca50ed8b7141b85264db6171cb33d2f3b896b5"},
+    {file = "redhat_qe_cloud_tools-1.0.54.tar.gz", hash = "sha256:ac01ca0275f484fcf04875e1cbcf44fde4e3bff11adbe8054f8cfdce65dc8f69"},
 ]
 
 [package.dependencies]
@@ -1412,12 +1412,12 @@ rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [[package]]
 name = "rosa-python-client"
-version = "1.0.73"
+version = "1.0.74"
 description = "Wrapper for rosa cli"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "rosa_python_client-1.0.73.tar.gz", hash = "sha256:5346ff691881689a55c3f4ecf301ed25b0e42f7d4c6e115c58932f0e79ff0714"},
+    {file = "rosa_python_client-1.0.74.tar.gz", hash = "sha256:ef42f9d5822dbc0fb9ad22dc6f1acded1ea1075849d3d8edb867cd3c88493dc3"},
 ]
 
 [package.dependencies]
@@ -1575,12 +1575,12 @@ files = [
 
 [[package]]
 name = "timeout-sampler"
-version = "0.0.19"
+version = "0.0.20"
 description = "Timeout utility class to wait for any function output and interact with it in given time"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "timeout_sampler-0.0.19.tar.gz", hash = "sha256:48513d8af24bb9ac9865b06c474bfd9c6c843a047448f246185abe68fc7e6663"},
+    {file = "timeout_sampler-0.0.20.tar.gz", hash = "sha256:76aa596fb812e17eff991bcd5b39a441dd0bc3d101fd57da2a407f38c2131e6d"},
 ]
 
 [package.dependencies]
@@ -1697,4 +1697,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "61e11056a162aee89c4f697405d23278d721a867df9289870999846d49c46c56"
+content-hash = "e74061aad62aaa790a5fba8c427a42a376c69a68ad74c4534268347bf03a07ad"
