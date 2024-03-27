@@ -762,12 +762,12 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "openshift-cli-installer"
-version = "2.0.53"
+version = "2.0.54"
 description = "CLI to install/uninstall Openshift clusters."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cli_installer-2.0.53.tar.gz", hash = "sha256:aa95e5c77888ebb456c4f64816520b73f5cae1cff444c07926aedab72244b82a"},
+    {file = "openshift_cli_installer-2.0.54.tar.gz", hash = "sha256:ad6980cd78bcb2774dedc831873c1af84a718a85f9e360316cbe6c7489357e48"},
 ]
 
 [package.dependencies]
@@ -806,12 +806,12 @@ urllib3 = ">=1.25.3"
 
 [[package]]
 name = "openshift-cluster-management-python-wrapper"
-version = "1.0.93"
+version = "1.0.94"
 description = "Wrapper around https://github.com/openshift/openshift-cluster-management-python-client"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cluster_management_python_wrapper-1.0.93.tar.gz", hash = "sha256:8596ab5caea212a01cd54eb25feae4076d752b95e0d7a0ae579f85212c155d4e"},
+    {file = "openshift_cluster_management_python_wrapper-1.0.94.tar.gz", hash = "sha256:1ef8b054604fdf136aab557a3663cf8357a946d98b0757440553053f6c4b003e"},
 ]
 
 [package.dependencies]
@@ -852,12 +852,12 @@ timeout-sampler = ">=0.0.17"
 
 [[package]]
 name = "openshift-python-wrapper"
-version = "10.0.25"
+version = "10.0.26"
 description = "Wrapper around https://github.com/kubernetes-client/python"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper-10.0.25.tar.gz", hash = "sha256:800bd30356305a734549da63c57f4080ad619565c4f4b1bf88bc208689ad80e6"},
+    {file = "openshift_python_wrapper-10.0.26.tar.gz", hash = "sha256:955cc3caacb79ba2c9af4c12c99b7656a6ef431fcbe44ed3e9c162cead1a9de1"},
 ]
 
 [package.dependencies]
@@ -872,12 +872,12 @@ xmltodict = ">=0.13.0,<0.14.0"
 
 [[package]]
 name = "openshift-python-wrapper-data-collector"
-version = "1.0.32"
+version = "1.0.33"
 description = "Data collector for https://github.com/openshift/openshift-python-wrapper when running with PyTest"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper_data_collector-1.0.32.tar.gz", hash = "sha256:24ca9f2be6bbb0b747ecb8d588331f895629b3552145f184b3b2b7627b8e0713"},
+    {file = "openshift_python_wrapper_data_collector-1.0.33.tar.gz", hash = "sha256:58754c9eb854c14864f54f7f433619a0768f65cc1161d81919e64bafa7af1249"},
 ]
 
 [package.dependencies]
@@ -1354,12 +1354,12 @@ files = [
 
 [[package]]
 name = "redhat-qe-cloud-tools"
-version = "1.0.54"
+version = "1.0.55"
 description = "Python utilities to manage cloud services, such as AWS."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "redhat_qe_cloud_tools-1.0.54.tar.gz", hash = "sha256:ac01ca0275f484fcf04875e1cbcf44fde4e3bff11adbe8054f8cfdce65dc8f69"},
+    {file = "redhat_qe_cloud_tools-1.0.55.tar.gz", hash = "sha256:bd1e81840b809a2e1abf7edf0128c942879a78f0758a9a17b90eaa831fdc34c6"},
 ]
 
 [package.dependencies]
