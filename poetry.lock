@@ -662,6 +662,30 @@ websocket-client = ">=0.32.0,<0.40.0 || >0.40.0,<0.41.dev0 || >=0.43.dev0"
 adal = ["adal (>=1.0.2)"]
 
 [[package]]
+name = "markdown-it-py"
+version = "3.0.0"
+description = "Python port of markdown-it. Markdown parsing, done right!"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "markdown-it-py-3.0.0.tar.gz", hash = "sha256:e3f60a94fa066dc52ec76661e37c851cb232d92f9886b15cb560aaada2df8feb"},
+    {file = "markdown_it_py-3.0.0-py3-none-any.whl", hash = "sha256:355216845c60bd96232cd8d8c40e8f9765cc86f46880e43a8fd22dc1a1a8cab1"},
+]
+
+[package.dependencies]
+mdurl = ">=0.1,<1.0"
+
+[package.extras]
+benchmarking = ["psutil", "pytest", "pytest-benchmark"]
+code-style = ["pre-commit (>=3.0,<4.0)"]
+compare = ["commonmark (>=0.9,<1.0)", "markdown (>=3.4,<4.0)", "mistletoe (>=1.0,<2.0)", "mistune (>=2.0,<3.0)", "panflute (>=2.3,<3.0)"]
+linkify = ["linkify-it-py (>=1,<3)"]
+plugins = ["mdit-py-plugins"]
+profiling = ["gprof2dot"]
+rtd = ["jupyter_sphinx", "mdit-py-plugins", "myst-parser", "pyyaml", "sphinx", "sphinx-copybutton", "sphinx-design", "sphinx_book_theme"]
+testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
+
+[[package]]
 name = "markupsafe"
 version = "2.1.4"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -745,6 +769,17 @@ files = [
 traitlets = "*"
 
 [[package]]
+name = "mdurl"
+version = "0.1.2"
+description = "Markdown URL utilities"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"},
+    {file = "mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"},
+]
+
+[[package]]
 name = "oauthlib"
 version = "3.2.2"
 description = "A generic, spec-compliant, thorough implementation of the OAuth request-signing logic"
@@ -762,12 +797,12 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "openshift-cli-installer"
-version = "2.0.58"
+version = "2.0.59"
 description = "CLI to install/uninstall Openshift clusters."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cli_installer-2.0.58.tar.gz", hash = "sha256:15cb4e031f578418c2c19d4a75317daea85b325633d0fc5378d6f52b28983f65"},
+    {file = "openshift_cli_installer-2.0.59.tar.gz", hash = "sha256:e9952103cd65f9cbbea68bc5638bdeca751c872bbf4e1a036c0aeb7633bd1b9b"},
 ]
 
 [package.dependencies]
@@ -779,7 +814,7 @@ openshift-cluster-management-python-wrapper = ">=1.0.54"
 openshift-python-utilities = ">=5.0.0"
 openshift-python-wrapper = ">=10.0.0"
 pyaml-env = ">=1.2.1,<2.0.0"
-pyhelper-utils = ">=0.0.4,<0.0.5"
+pyhelper-utils = ">=0.0.6,<0.0.7"
 pytest-testconfig = ">=0.2.0,<0.3.0"
 python-simple-logger = ">=1.0.7"
 python-terraform = ">=0.10.1,<0.11.0"
@@ -807,12 +842,12 @@ urllib3 = ">=1.25.3"
 
 [[package]]
 name = "openshift-cluster-management-python-wrapper"
-version = "1.0.99"
+version = "1.0.100"
 description = "Wrapper around https://github.com/openshift/openshift-cluster-management-python-client"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cluster_management_python_wrapper-1.0.99.tar.gz", hash = "sha256:f2e759b13e527b21b35629871ace31d0141fa802c7faa77149bd69ce42b8f31d"},
+    {file = "openshift_cluster_management_python_wrapper-1.0.100.tar.gz", hash = "sha256:b503cec3144f90009e8ea77d8378ff8c0863cd209a5dcdaae92ec44bde34d6bd"},
 ]
 
 [package.dependencies]
@@ -831,12 +866,12 @@ timeout-sampler = ">=0.0.2"
 
 [[package]]
 name = "openshift-python-utilities"
-version = "5.0.35"
+version = "5.0.36"
 description = "A utilities repository for https://github.com/RedHatQE/openshift-python-wrapper"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_utilities-5.0.35.tar.gz", hash = "sha256:c375f07f512167cbae4500e18b7f7ccf65f01b6a1a32c80e7f620a283fab0299"},
+    {file = "openshift_python_utilities-5.0.36.tar.gz", hash = "sha256:51921d8d3894b471607a454b671f62d0bc1f5c617c9d4ff1f33c0e2f571061fe"},
 ]
 
 [package.dependencies]
@@ -852,12 +887,12 @@ timeout-sampler = ">=0.0.17"
 
 [[package]]
 name = "openshift-python-wrapper"
-version = "10.0.31"
+version = "10.0.32"
 description = "Wrapper around https://github.com/kubernetes-client/python"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper-10.0.31.tar.gz", hash = "sha256:24aaffb7883b12ff5bdf1315bc19c8e61988a29b91064495bce6f05e38918aa8"},
+    {file = "openshift_python_wrapper-10.0.32.tar.gz", hash = "sha256:98e9e62cda83ecefc5f5f924b5fac6f4fd6540bd83f61011c6640acc177979dd"},
 ]
 
 [package.dependencies]
@@ -872,12 +907,12 @@ xmltodict = ">=0.13.0,<0.14.0"
 
 [[package]]
 name = "openshift-python-wrapper-data-collector"
-version = "1.0.37"
+version = "1.0.38"
 description = "Data collector for https://github.com/openshift/openshift-python-wrapper when running with PyTest"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper_data_collector-1.0.37.tar.gz", hash = "sha256:dbdc7cb0bc2eb3bed618d0771f1eb406c7dfeae1caf3bea66985136cc314cdbc"},
+    {file = "openshift_python_wrapper_data_collector-1.0.38.tar.gz", hash = "sha256:e227cf3f061c9934b4d96b9023cbf473db13f3071df9a58b2c7ec8b3134dc554"},
 ]
 
 [package.dependencies]
@@ -1087,17 +1122,19 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyhelper-utils"
-version = "0.0.4"
+version = "0.0.6"
 description = "Collective utility functions for python projects"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "pyhelper_utils-0.0.4.tar.gz", hash = "sha256:dce86768cf1552e95a5edf9ad5c74be5df0fad53c4e8444fe2f374bff5733bbd"},
+    {file = "pyhelper_utils-0.0.6.tar.gz", hash = "sha256:ca46437e966ca8b04fca9594e26aeb16d1d86f47444d97ce9b27d5355b3d3d94"},
 ]
 
 [package.dependencies]
+ipdb = ">=0.13.13,<0.14.0"
 python-simple-logger = ">=1.0.19,<2.0.0"
 requests = ">=2.31.0,<3.0.0"
+rich = ">=13.7.1,<14.0.0"
 
 [[package]]
 name = "pytest"
@@ -1234,12 +1271,12 @@ files = [
 
 [[package]]
 name = "python-simple-logger"
-version = "1.0.19"
+version = "1.0.20"
 description = "A simple logger for python"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "python_simple_logger-1.0.19.tar.gz", hash = "sha256:09e012b7eae28d22cd00725576aac0ec06f283838a57888d4d23b8935fc8092e"},
+    {file = "python_simple_logger-1.0.20.tar.gz", hash = "sha256:3bc6958ac7ac5a8e01f3515d94aa3edd5b1ecbc51afeeacf789b6cf06769f9c0"},
 ]
 
 [package.dependencies]
@@ -1368,12 +1405,12 @@ files = [
 
 [[package]]
 name = "redhat-qe-cloud-tools"
-version = "1.0.59"
+version = "1.0.60"
 description = "Python utilities to manage cloud services, such as AWS."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "redhat_qe_cloud_tools-1.0.59.tar.gz", hash = "sha256:bb1b83fb360a43c47462d463626b6c59655919090e01f7760e3be2f098237645"},
+    {file = "redhat_qe_cloud_tools-1.0.60.tar.gz", hash = "sha256:5bb1fc3e82d2e6fd9c7a4b6c54e0cfa3681f660f56155fea3d9f4a23790bd2c3"},
 ]
 
 [package.dependencies]
@@ -1425,13 +1462,31 @@ requests = ">=2.0.0"
 rsa = ["oauthlib[signedtoken] (>=3.0.0)"]
 
 [[package]]
+name = "rich"
+version = "13.7.1"
+description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
+optional = false
+python-versions = ">=3.7.0"
+files = [
+    {file = "rich-13.7.1-py3-none-any.whl", hash = "sha256:4edbae314f59eb482f54e9e30bf00d33350aaa94f4bfcd4e9e3110e64d0d7222"},
+    {file = "rich-13.7.1.tar.gz", hash = "sha256:9be308cb1fe2f1f57d67ce99e95af38a1e2bc71ad9813b0e247cf7ffbcc3a432"},
+]
+
+[package.dependencies]
+markdown-it-py = ">=2.2.0"
+pygments = ">=2.13.0,<3.0.0"
+
+[package.extras]
+jupyter = ["ipywidgets (>=7.5.1,<9)"]
+
+[[package]]
 name = "rosa-python-client"
-version = "1.0.78"
+version = "1.0.79"
 description = "Wrapper for rosa cli"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "rosa_python_client-1.0.78.tar.gz", hash = "sha256:4eb5bd11cc3dfdec6e5a250e970e0d9b2b4c78968ea43d94354ee24d838a63b6"},
+    {file = "rosa_python_client-1.0.79.tar.gz", hash = "sha256:d9de195250e6d79c5d807fdc9232f9925ef4123caeb50266c2e03172f6e9c995"},
 ]
 
 [package.dependencies]
@@ -1589,12 +1644,12 @@ files = [
 
 [[package]]
 name = "timeout-sampler"
-version = "0.0.20"
+version = "0.0.21"
 description = "Timeout utility class to wait for any function output and interact with it in given time"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "timeout_sampler-0.0.20.tar.gz", hash = "sha256:76aa596fb812e17eff991bcd5b39a441dd0bc3d101fd57da2a407f38c2131e6d"},
+    {file = "timeout_sampler-0.0.21.tar.gz", hash = "sha256:047994b8a3996b6fc2deca5263a6061167d7caa1b8f8c9ba0d190f4f302c8fa9"},
 ]
 
 [package.dependencies]
@@ -1711,4 +1766,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "e74061aad62aaa790a5fba8c427a42a376c69a68ad74c4534268347bf03a07ad"
+content-hash = "e7d2e1f408370951877e49dd5ed0bbd445d5dd518a242fb23d32727b39e025bc"
