@@ -1212,12 +1212,12 @@ urllib3 = ">=1.25.3"
 
 [[package]]
 name = "openshift-cluster-management-python-wrapper"
-version = "1.0.107"
+version = "1.0.108"
 description = "Wrapper around https://github.com/openshift/openshift-cluster-management-python-client"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cluster_management_python_wrapper-1.0.107.tar.gz", hash = "sha256:901e62d6d19ef84d196d87438e8fa6bd057dcb9370c221ea7a318481d635ec37"},
+    {file = "openshift_cluster_management_python_wrapper-1.0.108.tar.gz", hash = "sha256:d14e5cb1b6af4013500046194bf31992fef90422f965a8b836c746010d4d900e"},
 ]
 
 [package.dependencies]
@@ -1258,12 +1258,12 @@ timeout-sampler = ">=0.0.17"
 
 [[package]]
 name = "openshift-python-wrapper"
-version = "10.0.42"
+version = "10.0.43"
 description = "Wrapper around https://github.com/kubernetes-client/python"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper-10.0.42.tar.gz", hash = "sha256:d08e7fc9ed6215ff11a3064e12b1850856c56806c5d637af3b05d3e018f30613"},
+    {file = "openshift_python_wrapper-10.0.43.tar.gz", hash = "sha256:73929c2cfb1456ecbd78af40ba635ff9d27ecae5d60da31e5b9b6d8dcfa409cc"},
 ]
 
 [package.dependencies]
@@ -1278,12 +1278,12 @@ xmltodict = ">=0.13.0,<0.14.0"
 
 [[package]]
 name = "openshift-python-wrapper-data-collector"
-version = "1.0.46"
+version = "1.0.47"
 description = "Data collector for https://github.com/openshift/openshift-python-wrapper when running with PyTest"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_wrapper_data_collector-1.0.46.tar.gz", hash = "sha256:3bf5bd1080ffcff2bc82e133512063f17293360188f08d7c2c26dcd93f54aa48"},
+    {file = "openshift_python_wrapper_data_collector-1.0.47.tar.gz", hash = "sha256:6539a90049cc8e329e140dc2d7c9a10925af80a23b60b1cb817ffc4ff0d1552b"},
 ]
 
 [package.dependencies]
@@ -1984,12 +1984,12 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "rosa-python-client"
-version = "1.0.88"
+version = "1.0.89"
 description = "Wrapper for rosa cli"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "rosa_python_client-1.0.88.tar.gz", hash = "sha256:7c71a8463e62d4a5c9080e71a3be29df7a64ea81ad1a99318ee9547bfe407a65"},
+    {file = "rosa_python_client-1.0.89.tar.gz", hash = "sha256:0954504a437161c02c2d6d50ebf32fbad063b151749af9713a4b8ed214b975e2"},
 ]
 
 [package.dependencies]
