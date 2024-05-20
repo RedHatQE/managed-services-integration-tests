@@ -1167,12 +1167,12 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "openshift-cli-installer"
-version = "2.0.70"
+version = "2.0.67"
 description = "CLI to install/uninstall Openshift clusters."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cli_installer-2.0.70.tar.gz", hash = "sha256:2be7642ef6865673c3bb594c9a9e4d4b7f5895ef78563fad6f80d75bd7566806"},
+    {file = "openshift_cli_installer-2.0.67.tar.gz", hash = "sha256:6c6c6ac305c7a81c83170dc6ec3329bc47c0d47aaa5d713769c2d6aa543bfa5d"},
 ]
 
 [package.dependencies]
@@ -1184,7 +1184,7 @@ openshift-cluster-management-python-wrapper = ">=1.0.54"
 openshift-python-utilities = ">=5.0.0"
 openshift-python-wrapper = ">=10.0.0"
 pyaml-env = ">=1.2.1,<2.0.0"
-pyhelper-utils = ">=0.0.17,<0.0.18"
+pyhelper-utils = ">=0.0.15,<0.0.16"
 pytest-testconfig = ">=0.2.0,<0.3.0"
 python-simple-logger = ">=1.0.7"
 python-terraform = ">=0.10.1,<0.11.0"
@@ -1236,12 +1236,12 @@ timeout-sampler = ">=0.0.2"
 
 [[package]]
 name = "openshift-python-utilities"
-version = "5.0.40"
+version = "5.0.41"
 description = "A utilities repository for https://github.com/RedHatQE/openshift-python-wrapper"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_utilities-5.0.40.tar.gz", hash = "sha256:b6d679014c10b843609b98b28894141f03cbb9e9fcab3d3188c8bdf9d0653f52"},
+    {file = "openshift_python_utilities-5.0.41.tar.gz", hash = "sha256:552469a7f33868864409b188be4d55db575d61bf9e3a855d9ec5c00e5c1da19b"},
 ]
 
 [package.dependencies]
@@ -1249,6 +1249,7 @@ beautifulsoup4 = ">=4.12.3,<5.0.0"
 colorlog = ">=6.7.0,<7.0.0"
 openshift-python-wrapper = ">=10.0.4"
 openshift-python-wrapper-data-collector = ">=1.0.4"
+pyhelper-utils = ">=0.0.15,<0.0.16"
 python-simple-logger = ">=1.0.5"
 pyyaml = ">=6.0.1,<7.0.0"
 requests = ">=2.31.0,<3.0.0"
@@ -1554,12 +1555,12 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyhelper-utils"
-version = "0.0.17"
+version = "0.0.15"
 description = "Collective utility functions for python projects"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "pyhelper_utils-0.0.17.tar.gz", hash = "sha256:9d1be6097c7d1b093e85c7fa49bf52f5b557939596b83f3403e5f40bbcdd3a28"},
+    {file = "pyhelper_utils-0.0.15.tar.gz", hash = "sha256:bea149ec231d323e98c77a8d5df308860ec06c1611ea965a815b2a694c0e51c7"},
 ]
 
 [package.dependencies]
@@ -1617,13 +1618,13 @@ tests = ["hypothesis (>=3.27.0)", "pytest (>=3.2.1,!=3.3.0)"]
 
 [[package]]
 name = "pytest"
-version = "8.2.0"
+version = "8.2.1"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pytest-8.2.0-py3-none-any.whl", hash = "sha256:1733f0620f6cda4095bbf0d9ff8022486e91892245bb9e7d5542c018f612f233"},
-    {file = "pytest-8.2.0.tar.gz", hash = "sha256:d507d4482197eac0ba2bae2e9babf0672eb333017bcedaa5fb1a3d42c1174b3f"},
+    {file = "pytest-8.2.1-py3-none-any.whl", hash = "sha256:faccc5d332b8c3719f40283d0d44aa5cf101cec36f88cde9ed8f2bc0538612b1"},
+    {file = "pytest-8.2.1.tar.gz", hash = "sha256:5046e5b46d8e4cac199c373041f26be56fdb81eb4e67dc11d4e10811fc3408fd"},
 ]
 
 [package.dependencies]
@@ -1900,12 +1901,12 @@ files = [
 
 [[package]]
 name = "redhat-qe-cloud-tools"
-version = "1.0.74"
+version = "1.0.70"
 description = "Python utilities to manage cloud services, such as AWS."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "redhat_qe_cloud_tools-1.0.74.tar.gz", hash = "sha256:3f4fd457e5d8c01df3e8c56aeae3e3de64f7a87f5d7ccbadeff50c7dd90c0ae4"},
+    {file = "redhat_qe_cloud_tools-1.0.70.tar.gz", hash = "sha256:9420d39bccedca60ef49e4d808e4ac5d618829ca6718d67f15d901cc207fdffa"},
 ]
 
 [package.dependencies]
@@ -1921,7 +1922,7 @@ colorlog = ">=6.7.0,<7.0.0"
 configparser = ">=7.0.0,<8.0.0"
 google-cloud-compute = ">=1.14.1,<2.0.0"
 openshift-python-utilities = ">=5.0.0"
-pyhelper-utils = ">=0.0.17,<0.0.18"
+pyhelper-utils = ">=0.0.15,<0.0.16"
 python-simple-logger = ">=1.0.5"
 
 [[package]]
