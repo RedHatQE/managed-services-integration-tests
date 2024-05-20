@@ -206,17 +206,17 @@ lxml = ["lxml"]
 
 [[package]]
 name = "boto3"
-version = "1.34.108"
+version = "1.34.109"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "boto3-1.34.108-py3-none-any.whl", hash = "sha256:3601267d76cac17f1d4595c3d8d968dc15be074b79bfa3985187a02b328a0a5f"},
-    {file = "boto3-1.34.108.tar.gz", hash = "sha256:677723295151d29ff9b363598a20c1997c4e2af7e50669d9e428b757fe586a10"},
+    {file = "boto3-1.34.109-py3-none-any.whl", hash = "sha256:50a0f24dd737529ae489a3586f260b9220c6aede1ae7851fa4f33878c8805ef8"},
+    {file = "boto3-1.34.109.tar.gz", hash = "sha256:98d389562e03a46fd79fea5f988e9e6032674a0c3e9e42c06941ec588b7e1070"},
 ]
 
 [package.dependencies]
-botocore = ">=1.34.108,<1.35.0"
+botocore = ">=1.34.109,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.10.0,<0.11.0"
 
@@ -225,13 +225,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.34.108"
+version = "1.34.109"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "botocore-1.34.108-py3-none-any.whl", hash = "sha256:b1b9d00804267669c5fcc36489269f7e9c43580c30f0885fbf669cf73cec720b"},
-    {file = "botocore-1.34.108.tar.gz", hash = "sha256:384c9408c447631475dc41fdc9bf2e0f30c29c420d96bfe8b468bdc2bace3e13"},
+    {file = "botocore-1.34.109-py3-none-any.whl", hash = "sha256:647059a81acbfab85c694b9b57b0ef200dde071449fb8837f10aef9c6472730d"},
+    {file = "botocore-1.34.109.tar.gz", hash = "sha256:804821252597821f7223cb3bfca2a2a513ae0bb9a71e8e22605aff6866e13e71"},
 ]
 
 [package.dependencies]
@@ -1167,12 +1167,12 @@ signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "openshift-cli-installer"
-version = "2.0.70"
+version = "2.0.67"
 description = "CLI to install/uninstall Openshift clusters."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_cli_installer-2.0.70.tar.gz", hash = "sha256:2be7642ef6865673c3bb594c9a9e4d4b7f5895ef78563fad6f80d75bd7566806"},
+    {file = "openshift_cli_installer-2.0.67.tar.gz", hash = "sha256:6c6c6ac305c7a81c83170dc6ec3329bc47c0d47aaa5d713769c2d6aa543bfa5d"},
 ]
 
 [package.dependencies]
@@ -1184,7 +1184,7 @@ openshift-cluster-management-python-wrapper = ">=1.0.54"
 openshift-python-utilities = ">=5.0.0"
 openshift-python-wrapper = ">=10.0.0"
 pyaml-env = ">=1.2.1,<2.0.0"
-pyhelper-utils = ">=0.0.17,<0.0.18"
+pyhelper-utils = ">=0.0.15,<0.0.16"
 pytest-testconfig = ">=0.2.0,<0.3.0"
 python-simple-logger = ">=1.0.7"
 python-terraform = ">=0.10.1,<0.11.0"
@@ -1236,12 +1236,12 @@ timeout-sampler = ">=0.0.2"
 
 [[package]]
 name = "openshift-python-utilities"
-version = "5.0.40"
+version = "5.0.41"
 description = "A utilities repository for https://github.com/RedHatQE/openshift-python-wrapper"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "openshift_python_utilities-5.0.40.tar.gz", hash = "sha256:b6d679014c10b843609b98b28894141f03cbb9e9fcab3d3188c8bdf9d0653f52"},
+    {file = "openshift_python_utilities-5.0.41.tar.gz", hash = "sha256:552469a7f33868864409b188be4d55db575d61bf9e3a855d9ec5c00e5c1da19b"},
 ]
 
 [package.dependencies]
@@ -1249,6 +1249,7 @@ beautifulsoup4 = ">=4.12.3,<5.0.0"
 colorlog = ">=6.7.0,<7.0.0"
 openshift-python-wrapper = ">=10.0.4"
 openshift-python-wrapper-data-collector = ">=1.0.4"
+pyhelper-utils = ">=0.0.15,<0.0.16"
 python-simple-logger = ">=1.0.5"
 pyyaml = ">=6.0.1,<7.0.0"
 requests = ">=2.31.0,<3.0.0"
@@ -1554,12 +1555,12 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyhelper-utils"
-version = "0.0.17"
+version = "0.0.15"
 description = "Collective utility functions for python projects"
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "pyhelper_utils-0.0.17.tar.gz", hash = "sha256:9d1be6097c7d1b093e85c7fa49bf52f5b557939596b83f3403e5f40bbcdd3a28"},
+    {file = "pyhelper_utils-0.0.15.tar.gz", hash = "sha256:bea149ec231d323e98c77a8d5df308860ec06c1611ea965a815b2a694c0e51c7"},
 ]
 
 [package.dependencies]
@@ -1900,12 +1901,12 @@ files = [
 
 [[package]]
 name = "redhat-qe-cloud-tools"
-version = "1.0.74"
+version = "1.0.70"
 description = "Python utilities to manage cloud services, such as AWS."
 optional = false
 python-versions = "<4.0,>=3.8"
 files = [
-    {file = "redhat_qe_cloud_tools-1.0.74.tar.gz", hash = "sha256:3f4fd457e5d8c01df3e8c56aeae3e3de64f7a87f5d7ccbadeff50c7dd90c0ae4"},
+    {file = "redhat_qe_cloud_tools-1.0.70.tar.gz", hash = "sha256:9420d39bccedca60ef49e4d808e4ac5d618829ca6718d67f15d901cc207fdffa"},
 ]
 
 [package.dependencies]
@@ -1921,7 +1922,7 @@ colorlog = ">=6.7.0,<7.0.0"
 configparser = ">=7.0.0,<8.0.0"
 google-cloud-compute = ">=1.14.1,<2.0.0"
 openshift-python-utilities = ">=5.0.0"
-pyhelper-utils = ">=0.0.17,<0.0.18"
+pyhelper-utils = ">=0.0.15,<0.0.16"
 python-simple-logger = ">=1.0.5"
 
 [[package]]
