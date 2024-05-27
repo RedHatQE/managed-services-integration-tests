@@ -1,3 +1,5 @@
+This repo has been archived and is no longer maintained
+
 # managed-services-integration-tests
 
 This repository contains tests.
